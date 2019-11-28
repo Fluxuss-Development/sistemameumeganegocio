@@ -1,0 +1,168 @@
+object frmcadsubcategoria: Tfrmcadsubcategoria
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = Single
+  Caption = 'Cadastrar subcategoria'
+  ClientHeight = 480
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object Layout1: TLayout
+    Align = Client
+    Size.Width = 640.000000000000000000
+    Size.Height = 480.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object Rectangle1: TRectangle
+      Align = Client
+      Fill.Color = xFF353535
+      Size.Width = 640.000000000000000000
+      Size.Height = 480.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Layout2: TLayout
+      Align = Center
+      Size.Width = 262.000000000000000000
+      Size.Height = 353.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      object edtnomesubcat: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Align = Top
+        TabOrder = 0
+        MaxLength = 100
+        Position.Y = 47.000000000000000000
+        Size.Width = 262.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        OnKeyDown = edtnomesubcatKeyDown
+      end
+      object Label1: TLabel
+        Align = Top
+        StyledSettings = [Family, Size, Style]
+        Margins.Top = 20.000000000000000000
+        Margins.Bottom = 10.000000000000000000
+        Position.Y = 20.000000000000000000
+        Size.Width = 262.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.FontColor = claWhite
+        TextSettings.HorzAlign = Center
+        Text = 'Nome da subcategoria'
+        TabOrder = 1
+      end
+      object edtsubcatdesc: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Align = Top
+        TabOrder = 2
+        MaxLength = 200
+        Position.Y = 116.000000000000000000
+        Size.Width = 262.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        OnKeyDown = edtsubcatdescKeyDown
+      end
+      object Label2: TLabel
+        Align = Top
+        StyledSettings = [Family, Size, Style]
+        Margins.Top = 20.000000000000000000
+        Margins.Bottom = 10.000000000000000000
+        Position.Y = 89.000000000000000000
+        Size.Width = 262.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.FontColor = claWhite
+        TextSettings.HorzAlign = Center
+        Text = 'Descri'#231#227'o'
+        TabOrder = 3
+      end
+      object Layout3: TLayout
+        Align = Top
+        Position.Y = 181.000000000000000000
+        Size.Width = 262.000000000000000000
+        Size.Height = 27.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 4
+        object edtcatid: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Left
+          TabOrder = 0
+          ReadOnly = True
+          Size.Width = 161.000000000000000000
+          Size.Height = 27.000000000000000000
+          Size.PlatformDefault = False
+        end
+        object SpeedButton1: TSpeedButton
+          Align = Right
+          Position.X = 182.000000000000000000
+          Size.Width = 80.000000000000000000
+          Size.Height = 27.000000000000000000
+          Size.PlatformDefault = False
+          StyleLookup = 'searchtoolbuttonbordered'
+          Text = 'SpeedButton1'
+          OnClick = SpeedButton1Click
+        end
+      end
+      object Label3: TLabel
+        Align = Top
+        StyledSettings = [Family, Size, Style]
+        Position.Y = 138.000000000000000000
+        Size.Width = 262.000000000000000000
+        Size.Height = 43.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.FontColor = claWhite
+        TextSettings.HorzAlign = Center
+        Text = 'Categoria'
+        TabOrder = 5
+      end
+      object btncadastrar: TRoundRect
+        Align = Top
+        Fill.Color = claCrimson
+        Margins.Top = 20.000000000000000000
+        Position.Y = 228.000000000000000000
+        Size.Width = 262.000000000000000000
+        Size.Height = 41.000000000000000000
+        Size.PlatformDefault = False
+        Stroke.Thickness = 0.000000000000000000
+        Visible = False
+        OnClick = btncadastrarClick
+        object Label4: TLabel
+          Align = Center
+          StyledSettings = [Family, Size, Style]
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Cadastrar '
+          TabOrder = 0
+        end
+      end
+      object btnalterar: TRoundRect
+        Align = Top
+        Fill.Color = claCrimson
+        Margins.Top = 20.000000000000000000
+        Position.Y = 289.000000000000000000
+        Size.Width = 262.000000000000000000
+        Size.Height = 44.000000000000000000
+        Size.PlatformDefault = False
+        Stroke.Thickness = 0.000000000000000000
+        Visible = False
+        OnClick = btnalterarClick
+        object Label5: TLabel
+          Align = Center
+          StyledSettings = [Family, Size, Style]
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Alterar'
+          TabOrder = 0
+        end
+      end
+    end
+  end
+  object subcategorianotificacaonovo: TNotificationCenter
+    Left = 544
+    Top = 40
+  end
+end

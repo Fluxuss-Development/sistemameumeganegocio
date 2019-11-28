@@ -1,0 +1,73 @@
+unit Uativarfuncionario;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
+  FMX.ListView, FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts,
+  FMX.Objects, System.Rtti, System.Bindings.Outputs, Fmx.Bind.Editors,
+  Data.Bind.EngExt, Fmx.Bind.DBEngExt, Data.Bind.Components, Data.Bind.DBScope;
+
+type
+  Tfrmativarfuncionario = class(TForm)
+    Rectangle1: TRectangle;
+    Layout1: TLayout;
+    Label1: TLabel;
+    lsativarfuncionario: TListView;
+    BindSourceDB1: TBindSourceDB;
+    BindingsList1: TBindingsList;
+    LinkFillControlToField1: TLinkFillControlToField;
+    procedure FormShow(Sender: TObject);
+    procedure lsativarfuncionarioItemClickEx(const Sender: TObject;
+      ItemIndex: Integer; const LocalClickPos: TPointF;
+      const ItemObject: TListItemDrawable);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmativarfuncionario: Tfrmativarfuncionario;
+
+implementation
+
+{$R *.fmx}
+
+uses Umodulo, Ulogin, Umenu;
+
+//DLL DAS MENSAGENS CUSTOMIZADAS
+function mostraMensagem(Msg1, Msg2, btn1: string): integer; stdcall;
+  external 'PexibirMensagem.dll' name 'mostraMensagem';
+//FIM DO DLL
+
+procedure Tfrmativarfuncionario.FormShow(Sender: TObject);
+begin
+dm.consulta_funcio_auditoria.Close;
+dm.consulta_funcio_auditoria.SQL.Text := 'select * from empresario where empativo = 0';
+dm.consulta_funcio_auditoria.Open;
+end;
+
+procedure Tfrmativarfuncionario.lsativarfuncionarioItemClickEx(
+  const Sender: TObject; ItemIndex: Integer; const LocalClickPos: TPointF;
+  const ItemObject: TListItemDrawable);
+  var
+    comentario : string;
+begin
+dm.ativarfuncionario.Params.ParamByName('empcod').Value := dm.consulta_funcio_auditoriaempcod.AsInteger;
+dm.ativarfuncionario.Prepare;
+dm.ativarfuncionario.ExecSQL;
+comentario := 'Acesso do funcionário ' + dm.consulta_funcio_auditoriaempnome.AsString + ' ativado, pelo ' + frmlogin.nome_do_usuario_logado_para_proteger_integridade_do_sistema;
+dm.inserelogalteracoes.Params.ParamByName('logcomentario').Value := comentario;
+dm.inserelogalteracoes.Params.ParamByName('codemp').Value := frmmenu.empresarioid;
+dm.inserelogalteracoes.Prepare;
+dm.inserelogalteracoes.ExecSQL;
+//ShowMessage('Acesso de funcionário ativado com sucesso ::: ' + dm.consulta_funcio_auditoriaempnome.AsString);
+mostraMensagem('Acesso de funcionário ativado com sucesso ::: ' + dm.consulta_funcio_auditoriaempnome.AsString, 'Acesso de funcionário ativado com sucesso ::: ' + dm.consulta_funcio_auditoriaempnome.AsString, 'OK');
+dm.consulta_funcio_auditoria.Close;
+dm.consulta_funcio_auditoria.Open;
+end;
+
+end.

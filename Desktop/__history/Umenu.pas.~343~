@@ -1,0 +1,581 @@
+unit Umenu;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes,
+  System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
+  FMX.Controls.Presentation, FMX.MultiView, FMX.Layouts, FMX.Objects,
+  System.Notification, DateUtils, FMX.Ani, FireDAC.Stan.Param;
+                                          //FireDAC.Stan.Param evita warning
+// date utils para os caixas :D
+type
+  Tfrmmenu = class(TForm)
+    MultiView1: TMultiView;
+    StyleBook1: TStyleBook;
+    btnespande: TSpeedButton;
+    btnconsultaclientes: TSpeedButton;
+    Line1: TLine;
+    btnconsultacategoria: TSpeedButton;
+    btnconsultasubcategoria: TSpeedButton;
+    btnconsultavenda: TSpeedButton;
+    btnconsultaprodutos: TSpeedButton;
+    Line2: TLine;
+    btncadastracliente: TSpeedButton;
+    btncadastracategoria: TSpeedButton;
+    btncadastrasubcategoria: TSpeedButton;
+    btncadastrarproduto: TSpeedButton;
+    Pfundo: TPanel;
+    Line3: TLine;
+    btnabircaixa: TSpeedButton;
+    btniniciarvenda: TSpeedButton;
+    btnfecharcaixa: TSpeedButton;
+    notificacaixaabertooufechado: TNotificationCenter;
+    configuracoes_e_vendas: TSpeedButton;
+    laydireitomostrainfos: TLayout;
+    Line4: TLine;
+    informavendasparagerentes: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    lbllucrodiario: TLabel;
+    Label3: TLabel;
+    lbllucromesatual: TLabel;
+    Label5: TLabel;
+    lbllucroanual: TLabel;
+    btnrecarregadetalhesdelucros: TRoundRect;
+    Label6: TLabel;
+    ScaleX: TFloatAnimation;
+    ScaleY: TFloatAnimation;
+    btnprecisodeajuda_manual: TCircle;
+    FloatAnimation1: TFloatAnimation;
+    FloatAnimation2: TFloatAnimation;
+    btngerenciafornecedores: TRoundRect;
+    Label4: TLabel;
+    FloatAnimation3: TFloatAnimation;
+    FloatAnimation4: TFloatAnimation;
+    lblcaptiondobotaodeajuda: TLabel;
+    btngerenciarelatorios: TRoundRect;
+    Label7: TLabel;
+    FloatAnimation5: TFloatAnimation;
+    FloatAnimation6: TFloatAnimation;
+    btngraficosdosistema: TRoundRect;
+    Label8: TLabel;
+    FloatAnimation7: TFloatAnimation;
+    FloatAnimation8: TFloatAnimation;
+    btnlogout: TCircle;
+    FloatAnimation9: TFloatAnimation;
+    FloatAnimation10: TFloatAnimation;
+    TimerVerificaInformações: TTimer;
+    Pinformações: TPanel;
+    PestoqueGer: TPanel;
+    Label9: TLabel;
+    btngerestoque: TRoundRect;
+    Label10: TLabel;
+    Label11: TLabel;
+    FloatAnimation11: TFloatAnimation;
+    FloatAnimation12: TFloatAnimation;
+    procedure btnconsultaclientesClick(Sender: TObject);
+    procedure btnconsultacategoriaClick(Sender: TObject);
+    procedure btnconsultasubcategoriaClick(Sender: TObject);
+    procedure btnconsultavendaClick(Sender: TObject);
+    procedure btnconsultaprodutosClick(Sender: TObject);
+    procedure btncadastraclienteClick(Sender: TObject);
+    procedure btncadastracategoriaClick(Sender: TObject);
+    procedure btncadastrasubcategoriaClick(Sender: TObject);
+    procedure btncadastrarprodutoClick(Sender: TObject);
+    procedure btnabircaixaClick(Sender: TObject);
+    procedure btnfecharcaixaClick(Sender: TObject);
+    procedure btniniciarvendaClick(Sender: TObject);
+    procedure configuracoes_e_vendasClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormShow(Sender: TObject);
+    procedure MostraAnalisticos();
+    procedure btnrecarregadetalhesdelucrosClick(Sender: TObject);
+    procedure btnprecisodeajuda_manualClick(Sender: TObject);
+    procedure btnprecisodeajuda_manualMouseEnter(Sender: TObject);
+    procedure btnprecisodeajuda_manualMouseLeave(Sender: TObject);
+    procedure btnlogoutClick(Sender: TObject);
+    procedure btngerenciafornecedoresClick(Sender: TObject);
+    procedure btngraficosdosistemaClick(Sender: TObject);
+    procedure btngerenciarelatoriosClick(Sender: TObject);
+    procedure TimerVerificaInformaçõesTimer(Sender: TObject);    //essa procedure é usada para trazer os dados do mysql para o painel do empresário/gerente.
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    empresarioid: integer; // id do empresario
+    codigodocaixaaberto: integer;
+    cargodofuncouempr: boolean;
+    // aqui serve para habilitar ou desabilitar ferramentas do sistema de acordo com o cargo.
+  end;
+
+var
+  frmmenu: Tfrmmenu;
+
+implementation
+
+{$R *.fmx}
+
+uses Uconsultaclientes, Uconsultacategorias, Uconsultasubcategorias,
+  Uconsultavendas, Uconsultaprodutos, Ucadcliente, Ucadcategoria,
+  Ucadsubcategoria, Ucadprodutos, Umodulo, Uvenda, Uconfiguracoes, Ulogin,
+  UGerenciafornecedor, Ugraficosdosistema, Urelatorios;
+
+
+//DLL DAS MENSAGENS CUSTOMIZADAS
+function mostraMensagemFecharCaixa(valorabertura, valorfechamento, codigodocaixa, vendedor: string): integer; stdcall;
+  external 'PexibirMensagem.dll' name 'mostraMensagemFecharCaixa';
+//FIM DO DLL
+
+//DLL DAS MENSAGENS CUSTOMIZADAS
+function mostraMensagem(Msg1, Msg2, btn1: string): integer; stdcall;
+  external 'PexibirMensagem.dll' name 'mostraMensagem';
+//FIM DO DLL
+
+procedure Tfrmmenu.btnabircaixaClick(Sender: TObject);
+var
+  notificacao: TNotification;
+  valor_caixa_aberto : real;
+  null: string;
+begin
+  null := 'NULL';
+ // ShowMessage('caixa aberto !');
+  mostraMensagem('caixa aberto !', 'caixa aberto !', 'OK');
+  // verifica se existe um caixa aberto
+  dm.consultacaixa.Close;
+  dm.consultacaixa.SQL.Text := 'select * from caixas where caifech like ' +
+    '''NULL%''' + 'and caiemp = ' + IntToStr(empresarioid);
+  dm.consultacaixa.Open;
+  codigodocaixaaberto := dm.consultacaixacaicod.AsInteger;
+  if (dm.consultacaixa.RecordCount >= 1) then
+  begin
+   // ShowMessage('Já existe um caixa aberto !');
+    mostraMensagem('Já existe um caixa aberto !', 'Já existe um caixa aberto !', 'OK');
+    btniniciarvenda.Visible := true;
+    btnfecharcaixa.Visible := true;
+    btnabircaixa.Visible := false;
+    //CASO O ABORT SEJA REMOVIDO ELE CONTINUARA MESMO IDENTIFICANDO UM CAIXA ABERTO E IRA INSERIR OUTRO !
+    //para não continuar executando se encontrar um caixa aberto ele usa o abort;
+    abort;
+    //NÃO SE DEVER REMOVER O ABORT
+  end   //caso não tenha nenhum caixa aberto para aquele determinado empresário ele efetua a operação abaixo:
+  else
+//______________________________PROCEDIMENTO PARA PEGAR O VALOR INICIAL DO CAIXA
+//tutorial útil
+//http://www.fmxexpress.com/new-non-blocking-inputbox-function-in-delphi-xe7-firemonkey-on-android-and-ios/
+try
+ InputBox('Entre com o valor inicial do caixa:','','100,00',
+procedure(const AResult: TModalResult; const AValue: string)
+begin
+    case AResult of
+      { Detect which button was pushed and show a different message }
+      mrOk:
+      begin
+      try
+        // AValue is the result of the inputbox dialog
+        //aqui valida se o valor recebido é real e também se não foi inserido uma string para dar pau
+        //substitui virgula por .
+        valor_caixa_aberto := StrToFloat(StringReplace(Avalue, '.', ',', [rfReplaceAll]));
+      except
+        showmessage('Somente é permitdo números para abertura do caixa');
+        abort;
+      end;
+      end;
+      mrCancel:
+      begin
+        ShowMessage('Abertura de caixa cancelado !');
+        abort;
+      end;
+
+    end;
+end
+);
+except
+   //caso tudo isso acima de pau ele somente da um abort;
+   abort;
+end;
+  //______________________________________________________________________________
+  begin
+    dm.abrecaixa.Params.ParamByName('caiemp').Value := empresarioid;
+    dm.abrecaixa.Params.ParamByName('caivlrabert').Value := valor_caixa_aberto;
+    dm.abrecaixa.Params.ParamByName('caifech').Value := null;
+    dm.abrecaixa.Prepare;
+    dm.abrecaixa.ExecSQL;
+    dm.consultacaixa.Close; // para pegar o id do caixa
+    dm.consultacaixa.Open; // para pegar o id do caixa
+    dm.consultacaixa.Last; // pega o ultimo registro
+    codigodocaixaaberto := dm.consultacaixacaicod.AsInteger;
+    if (dm.abrecaixa.RowsAffected = 1) then
+    begin
+      /// /////////////////////////////////
+      // Caso abrir tenha funcionado
+      notificacao := notificacaixaabertooufechado.CreateNotification;
+      try
+        notificacao.Name := 'Meu mega Negócio';
+        notificacao.Title := 'Caixa aberto';
+        notificacao.AlertBody :=
+          'O caixa foi aberto | Excelentes vendas a você !';
+        notificacaixaabertooufechado.ScheduleNotification(notificacao);
+        notificacaixaabertooufechado.PresentNotification(notificacao);
+      finally
+        notificacao.Free;
+      end;
+      btnfecharcaixa.Visible := true;
+      btniniciarvenda.Visible := true;
+      btnabircaixa.Visible := false;
+    end
+    else
+    begin
+      ShowMessage('Não foi possivel abrir seu caixa');
+    end;
+  end;
+end;
+
+//cadastrar categoria
+procedure Tfrmmenu.btncadastracategoriaClick(Sender: TObject);
+begin
+  frmcadcategorias.oque_e_cara := 'cadastro';
+  frmcadcategorias.edtnomecat.Text := '';
+  frmcadcategorias.edtdesccat.Text := '';
+  frmcadcategorias.Parent := Pfundo;
+  frmcadcategorias.Show;
+end;
+
+//cadastrar cliente
+procedure Tfrmmenu.btncadastraclienteClick(Sender: TObject);
+begin
+  frmcadcliente.edtcpf.ReadOnly := false;
+  frmcadcliente.edtnomecliente.Text := '';
+  frmcadcliente.edttelefone.Text := '';
+  frmcadcliente.edtendereco.Text := '';
+  frmcadcliente.edtcpf.Text := '';
+  frmcadcliente.oque_e := 'cadastro';
+  frmcadcliente.Parent := Pfundo;
+  frmcadcliente.Show;
+end;
+
+//cadastrar produto
+procedure Tfrmmenu.btncadastrarprodutoClick(Sender: TObject);
+begin
+  frmcadprodutos.edtnomeprod.Text := '';
+  frmcadprodutos.edtprecoprod.Text := '';
+  frmcadprodutos.edtquantprod.Text := '';
+  frmcadprodutos.edtlucroprod.Text := '';
+  frmcadprodutos.edtsubcategoria.Text := '';
+  frmcadprodutos.edtprecodevenda.Text := '';
+  frmcadprodutos.edtimposto.Text := '';
+  frmcadprodutos.edtcomissoes.Text := '';
+  frmcadprodutos.edtdespesasadminis.Text := '';
+  frmcadprodutos.edtlucrodesajado.Text := '';
+  frmcadprodutos.oque_manu := 'cadastro';
+  frmcadprodutos.Parent := Pfundo;
+  frmcadprodutos.Show;
+end;
+
+//cadastrar sub categoria
+procedure Tfrmmenu.btncadastrasubcategoriaClick(Sender: TObject);
+begin
+  frmcadsubcategoria.gamba_do_zanata := 'cadastro';
+  frmcadsubcategoria.edtnomesubcat.Text := '';
+  frmcadsubcategoria.edtsubcatdesc.Text := '';
+  frmcadsubcategoria.edtcatid.Text := '';
+  frmcadsubcategoria.Parent := Pfundo;
+  frmcadsubcategoria.Show;
+end;
+//consultar categorias
+procedure Tfrmmenu.btnconsultacategoriaClick(Sender: TObject);
+begin
+  frmconsultacategoria.cadatrodesubcategoria_para_pegar_id := 'nao';
+  frmconsultacategoria.Parent := Pfundo;
+  frmconsultacategoria.Show;
+end;
+
+//consultar clientes
+procedure Tfrmmenu.btnconsultaclientesClick(Sender: TObject);
+begin
+  frmconsultaclientes.Parent := Pfundo;
+  frmconsultaclientes.Show;
+end;
+
+//consultar produtos
+procedure Tfrmmenu.btnconsultaprodutosClick(Sender: TObject);
+begin
+  frmconsultaproduto.e_para_vincular_em_uma_venda_ := 'nao';
+  frmconsultaproduto.Parent := Pfundo;
+  frmconsultaproduto.Show;
+end;
+
+//consultar subcategorias
+procedure Tfrmmenu.btnconsultasubcategoriaClick(Sender: TObject);
+begin
+  frmconsultasubcategoria.pegar_id_para_cadastrar_produtos := 'nao';
+  frmconsultasubcategoria.Parent := Pfundo;
+  frmconsultasubcategoria.Show;
+end;
+
+//consultar vendas
+procedure Tfrmmenu.btnconsultavendaClick(Sender: TObject);
+begin
+  frmconsultarvendas.Parent := Pfundo;
+  frmconsultarvendas.Show;
+end;
+
+procedure Tfrmmenu.btnfecharcaixaClick(Sender: TObject);
+var
+  result: string;
+  Data: TDateTime;
+  total_das_vendas, valor_inicial_das_vendas : real;
+begin
+  Data := Now;
+  result := FormatDateTime('yyyy/mm/dd hh:mm:ss', Data);
+  dm.consultacaixa.Close;
+  dm.consultacaixa.SQL.Text := 'select * from caixas where caicod = ' + IntToStr(codigodocaixaaberto);
+  dm.consultacaixa.Open;
+  valor_inicial_das_vendas := dm.consultacaixacaivlrabert.AsCurrency;
+  // Result := (IntToStr(YearOf(Data)) + '/' + IntToStr(MonthOf(Data) + '/' + IntToStr(DayOf(Data));
+  dm.consultacaixa.Open;
+  dm.consultacaixa.SQL.Text := 'select * from caixas where caifech like ' +
+    '''NULL%''' + 'and caiemp = ' + IntToStr(empresarioid);
+  dm.consultacaixa.Open;
+  //_____________rotina para somar o total de todo lucro do caixa
+  ShowMessage('Código do caixa aberto: ' + FloatToStr(codigodocaixaaberto));
+  dm.convenfechvenda.Close;
+  dm.convenfechvenda.SQL.Text := 'select sum(ventotal) as ' + QuotedStr('total') + ' from vendas where vencaicod = ' + IntToStr(codigodocaixaaberto);
+  dm.convenfechvenda.Open;
+  total_das_vendas :=  dm.convenfechvendatotal.AsCurrency;
+  dm.consultacaixa.Last; // vai para a ultima posição do banco
+  codigodocaixaaberto := dm.consultacaixacaicod.AsInteger;
+  dm.fechacaixa.Params.ParamByName('caiemp').Value := empresarioid;
+  dm.fechacaixa.Params.ParamByName('caifech').Value := DateToStr(Data);
+  dm.fechacaixa.Params.ParamByName('caivlrfech').Value := total_das_vendas;
+  dm.fechacaixa.Params.ParamByName('caicod').Value := codigodocaixaaberto;
+  dm.fechacaixa.Prepare;
+  dm.fechacaixa.ExecSQL;
+  ShowMessage('Seu caixa foi fechado com sucesso !');
+  ShowMessage('Você vendeu um total de: ' + FloatToStr(total_das_vendas));
+  btnfecharcaixa.Visible := false;
+  btniniciarvenda.Visible := false;
+  btnabircaixa.Visible := true;
+  mostraMensagemFecharCaixa(FloatToStr(valor_inicial_das_vendas), FloatToStr(total_das_vendas), IntToStr(codigodocaixaaberto), frmlogin.nome_do_usuario_logado_para_proteger_integridade_do_sistema);
+end;
+
+procedure Tfrmmenu.btngerenciafornecedoresClick(Sender: TObject);
+begin
+frmgerenciafornecedores.Parent := Pfundo;
+frmgerenciafornecedores.ShowModal;
+end;
+
+procedure Tfrmmenu.btngerenciarelatoriosClick(Sender: TObject);
+begin
+frmrelatorios.Parent := Pfundo;
+frmrelatorios.ShowModal;
+end;
+
+procedure Tfrmmenu.btngraficosdosistemaClick(Sender: TObject);
+begin
+frmgraficosdosistema.Parent := Pfundo;
+frmgraficosdosistema.ShowModal;
+end;
+
+procedure Tfrmmenu.btniniciarvendaClick(Sender: TObject);
+begin
+  ShowMessage('Código do caixa: ' + IntToStr(codigodocaixaaberto));
+  frmvenda.Parent := Pfundo;
+  frmvenda.Show;
+end;
+
+procedure Tfrmmenu.btnlogoutClick(Sender: TObject);
+var
+ i: integer;
+begin
+Application.Terminate;
+for i := 1 to Screen.Formcount - 1 do
+  Screen.Forms[i].close;
+
+end;
+
+//animação de rotação do botão ajuda para o manual
+//adicionado em 10/08/2019
+procedure Tfrmmenu.btnprecisodeajuda_manualClick(Sender: TObject);
+begin
+if (btnprecisodeajuda_manual.RotationAngle = 180) then
+begin
+   btnprecisodeajuda_manual.AnimateFloat('RotationAngle', 0, 1,
+                                        TAnimationType.InOut,
+                                        TInterpolationType.Circular);
+end
+else
+begin
+  btnprecisodeajuda_manual.AnimateFloat('RotationAngle', 180, 1,
+                                        TAnimationType.InOut,
+                                        TInterpolationType.Circular);
+end;
+end;
+//animação de rotação do botão ajuda para o manual
+//adicionado em 10/08/2019
+procedure Tfrmmenu.btnprecisodeajuda_manualMouseEnter(Sender: TObject);
+begin
+  lblcaptiondobotaodeajuda.Visible := true;
+end;
+//animação de rotação do botão ajuda para o manual
+//adicionado em 10/08/2019
+procedure Tfrmmenu.btnprecisodeajuda_manualMouseLeave(Sender: TObject);
+begin
+  lblcaptiondobotaodeajuda.Visible := false;
+end;
+
+procedure Tfrmmenu.btnrecarregadetalhesdelucrosClick(Sender: TObject);
+begin
+MostraAnalisticos();
+end;
+
+//configurações do aplicativo
+procedure Tfrmmenu.configuracoes_e_vendasClick(Sender: TObject);
+begin
+  frmconfiguracoes.Parent := Pfundo;
+  frmconfiguracoes.Show;
+end;
+
+// quando o usuário fechar o form do menu o do login se abre altomáticamente
+procedure Tfrmmenu.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  frmlogin.Show;
+  //-------------------------------
+  //SOLUÇÃO PARA O BUG DE TROCA DE USUÁRIOS  CASO O CAIXA ESTEJÁ ABERTO
+  //NO CASO FARÁ COM QUE OS ESCONDA O DOIS BOTÃO E O USUÁRIO SERÁ OBRIGADO A INICIAR
+  //RECEBENDO O ID DE UMA CAIXA ABERTO OU NOVO REFERENTE A ELE !
+  //-------------------------------
+  btnfecharcaixa.Visible := false;
+  btniniciarvenda.Visible := false;
+  btnabircaixa.Visible:=true;
+end;
+
+
+//traz os dados do mysql para serem exibidos de forma  a mostrar os lucros diários e etc para o empresario/gerente
+procedure Tfrmmenu.MostraAnalisticos;
+begin
+//executa um try pois pode gerar uma excessão
+try
+    //pega valor diário
+     dm.consultaparaanalytics.Close;
+     dm.consultaparaanalytics.SQL.Text := 'SELECT sum(ventotal) as totalvenda FROM vendas where ventotal > 0 and DAYOFMONTH(vendataven) = DAYOFMONTH(" ' + FormatDateTime('yyyy-mm-dd-', date) + '")';
+     dm.consultaparaanalytics.Open();
+     //compara os field para ver se não é vazio caso seja vazio a label recebe 0,00 senão o valor trazido
+     if (dm.consultaparaanalytics.FieldByName('totalvenda').AsString.Equals('')) then
+     begin
+       lbllucrodiario.Text := 'R$ 0,00';
+     end
+     else
+     begin
+       lbllucrodiario.Text := 'R$ ' + dm.consultaparaanalytics.FieldByName('totalvenda').AsString;
+     end;
+   //pega o valor por mês
+     dm.consultaparaanalytics.Close;
+     dm.consultaparaanalytics.SQL.Text := 'SELECT sum(ventotal) as totalvendames FROM vendas where ventotal > 0 and MONTH(vendataven) = MONTH(" ' + FormatDateTime('yyyy-mm-dd-', date) + '")';
+     dm.consultaparaanalytics.Open();
+     //compara os field para ver se não é vazio caso seja vazio a label recebe 0,00 senão o valor trazido
+     if(dm.consultaparaanalytics.FieldByName('totalvendames').AsString.Equals('')) then
+     begin
+       lbllucromesatual.Text := 'R$ 0,00';
+     end
+     else
+     begin
+       lbllucromesatual.Text := 'R$ ' + dm.consultaparaanalytics.FieldByName('totalvendames').AsString;
+     end;
+   //pega o lucro anual
+    dm.consultaparaanalytics.Close;
+    dm.consultaparaanalytics.SQL.Text := 'SELECT sum(ventotal) as totalvendaanual FROM vendas where ventotal > 0 and YEAR(vendataven) = YEAR(" ' + FormatDateTime('yyyy-mm-dd-', date) + '")';
+    dm.consultaparaanalytics.Open();
+    //compara os field para ver se não é vazio caso seja vazio a label recebe 0,00 senão o valor trazido
+    if (dm.consultaparaanalytics.FieldByName('totalvendaanual').AsString.Equals('')) then
+    begin
+      lbllucroanual.Text := 'R$ 0,00';
+    end
+    else
+    begin
+      lbllucroanual.Text := 'R$ ' + dm.consultaparaanalytics.FieldByName('totalvendaanual').AsString;
+    end;
+except
+    lbllucrodiario.Text := 'R$ 0,00';
+    lbllucromesatual.Text := 'R$ 0,00';
+    lbllucroanual.Text := 'R$ 0,00';
+end;
+end;
+
+procedure Tfrmmenu.TimerVerificaInformaçõesTimer(Sender: TObject);
+begin
+MostraAnalisticos(); //aqui atualiza o menu lateral de vendas
+dm.consultaestoquemenuprincipal.Close;
+dm.consultaestoquemenuprincipal.SQL.Text := 'select * from produtos where prodquantidade < 5 and prodativo = 1';
+dm.consultaestoquemenuprincipal.Open;
+if(dm.consultaestoquemenuprincipal.RecordCount >= 1) then
+begin
+  PestoqueGer.Visible := True;    //permite que o estoque seja enabled
+  PestoqueGer.Enabled := True;
+end
+else
+begin
+  PestoqueGer.Visible := False;
+  PestoqueGer.Enabled := False;
+end;
+end;
+
+procedure Tfrmmenu.FormShow(Sender: TObject);
+begin
+// PERMISSÕES QUE O EMPRESÁRIO/GERENTE PODE VER OS SEUS LUCROS
+if (cargodofuncouempr = false) then
+begin
+  Pinformações.Enabled := true;
+  informavendasparagerentes.Enabled := true;
+  MostraAnalisticos();
+end
+else if (cargodofuncouempr = true) then
+begin
+  informavendasparagerentes.Enabled := false;
+  lbllucrodiario.Text := 'R$ 0,00';
+  lbllucromesatual.Text := 'R$ 0,00';
+  lbllucroanual.Text := 'R$ 0,00';
+end;
+
+ // PERMISSÕES QUE O FUNCIONÁRIO PODE EFETUAR NO SISTEMA
+  if (cargodofuncouempr = true) then
+  begin
+    Line1.Visible := true;
+    btnconsultaclientes.Enabled := true;
+    btnconsultacategoria.Enabled := false;
+    btnconsultasubcategoria.Enabled := false;
+    btnconsultavenda.Enabled := true;
+    btnconsultaprodutos.Enabled := true;
+    Line2.Visible := true;
+    btncadastracliente.Enabled := true;
+    btncadastracategoria.Enabled := false;
+    btncadastrasubcategoria.Enabled := false;
+    btncadastrarproduto.Enabled := false;
+    Line3.Visible := true;
+    btnabircaixa.Enabled := true;
+    configuracoes_e_vendas.Enabled := false;
+  end
+  // PERMISSÕES QUE O EMPRESÁRIO/GERENTE PODE EFETUAR NO SISTEMA
+  else if (cargodofuncouempr = false) then
+  begin
+    Line1.Visible := true;
+    btnconsultaclientes.Enabled := true;
+    btnconsultacategoria.Enabled := true;
+    btnconsultasubcategoria.Enabled := true;
+    btnconsultavenda.Enabled := true;
+    btnconsultaprodutos.Enabled := true;
+    Line2.Visible := true;
+    btncadastracliente.Enabled := true;
+    btncadastracategoria.Enabled := true;
+    btncadastrasubcategoria.Enabled := true;
+    btncadastrarproduto.Enabled := true;
+    Line3.Visible := true;
+    btnabircaixa.Enabled := true;
+    configuracoes_e_vendas.Enabled := true;
+  end;
+end;
+
+
+
+end.

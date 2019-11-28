@@ -1,0 +1,363 @@
+unit Ucadprodutos;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
+  FMX.Controls.Presentation, FMX.Edit, FMX.Objects, FMX.Layouts,
+  System.Notification, FireDAC.Stan.Param;
+                            // FireDAC.Stan.Param evita warnings
+type
+  Tfrmcadprodutos = class(TForm)
+    Layout1: TLayout;
+    Rectangle1: TRectangle;
+    Layout2: TLayout;
+    edtnomeprod: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    edtprecoprod: TEdit;
+    Label3: TLabel;
+    edtquantprod: TEdit;
+    edtlucroprod: TEdit;
+    Label4: TLabel;
+    Label5: TLabel;
+    Layout3: TLayout;
+    edtsubcategoria: TEdit;
+    SpeedButton1: TSpeedButton;
+    btncadastrar: TRoundRect;
+    Label6: TLabel;
+    btnalterar: TRoundRect;
+    alterar: TLabel;
+    notificacentroprodutocadastrado: TNotificationCenter;
+    Label7: TLabel;
+    Layout4: TLayout;
+    Label8: TLabel;
+    edtimposto: TEdit;
+    Label9: TLabel;
+    Label10: TLabel;
+    edtcomissoes: TEdit;
+    Label11: TLabel;
+    edtdespesasadminis: TEdit;
+    Label12: TLabel;
+    edtlucrodesajado: TEdit;
+    Label13: TLabel;
+    Label14: TLabel;
+    Line1: TLine;
+    edtprecodevenda: TEdit;
+    Label15: TLabel;
+    procedure FormShow(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
+    procedure btncadastrarClick(Sender: TObject);
+    procedure btnalterarClick(Sender: TObject);
+    procedure edtprecoprodKeyDown(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
+    procedure edtquantprodKeyDown(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
+    procedure edtlucroprodKeyDown(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
+    procedure edtnomeprodKeyDown(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
+    procedure edtimpostoKeyDown(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
+    procedure edtcomissoesKeyDown(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
+    procedure edtdespesasadminisKeyDown(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
+    procedure edtlucrodesajadoKeyDown(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
+    procedure edtprecodevendaKeyDown(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    //variáveis globais
+    oque_manu : string;
+    iddasubcate : integer;
+    iddoproduto_para_alterar: integer;
+  end;
+
+var
+  frmcadprodutos: Tfrmcadprodutos;
+
+implementation
+
+{$R *.fmx}
+
+uses Uconsultasubcategorias, Umodulo, Uconsultaprodutos;
+
+//DLL DAS MENSAGENS CUSTOMIZADAS
+function mostraMensagem(Msg1, Msg2, btn1: string): integer; stdcall;
+  external 'PexibirMensagem.dll' name 'mostraMensagem';
+//FIM DO DLL
+
+procedure Tfrmcadprodutos.btnalterarClick(Sender: TObject);
+var
+  precodoprodutofix: string;
+  notificacao: TNotification;
+begin
+if(edtnomeprod.Text.Equals('') or edtprecoprod.Text.Equals('') or edtquantprod.Text.Equals('') or edtlucroprod.Text.Equals('') or edtsubcategoria.Text.Equals('') or edtimposto.Text.Equals('') or edtcomissoes.Text.Equals('') or edtdespesasadminis.Text.Equals('') or edtlucrodesajado.Text.Equals('') or edtprecodevenda.Text.Equals('')) then
+ begin
+  //ShowMessage('Campos vazios preencha e tente novamente');
+  mostraMensagem('Campos vazios preencha e tente novamente', 'Campos vazios preencha e tente novamente', 'OK');
+end
+else
+begin
+  try
+     //para arrumar caso o usuário tenha digitado , ao invés de .
+    precodoprodutofix := StringReplace(edtprecoprod.Text, ',', '.', [rfReplaceAll]);
+    dm.alteraproduto.Params.ParamByName('prodnome').Value := edtnomeprod.Text;
+    dm.alteraproduto.Params.ParamByName('prodvalor').Value := precodoprodutofix;
+    dm.alteraproduto.Params.ParamByName('prodquantidade').Value := edtquantprod.Text;
+    dm.alteraproduto.Params.ParamByName('prodlucro').Value := edtlucroprod.Text;
+    dm.alteraproduto.Params.ParamByName('prodativo').Value := '1';
+    dm.alteraproduto.Params.ParamByName('prodsubcategoria').Value := iddasubcate;
+    dm.alteraproduto.Params.ParamByName('prodcod').Value := iddoproduto_para_alterar;
+    dm.alteraproduto.Prepare;
+    dm.alteraproduto.ExecSQL;
+    //ShowMessage('Seu produto foi alterado com sucesso !');
+    mostraMensagem('Seu produto foi alterado com sucesso !', 'Seu produto foi alterado com sucesso !', 'OK');
+            // Caso o cadastro do cliente tenha dado certo
+    notificacao := notificacentroprodutocadastrado.CreateNotification;
+    try
+      notificacao.Name := 'Meu mega Negócio';
+      notificacao.Title := 'Alteração !';
+      notificacao.AlertBody :=
+         'O seu produto ' + edtnomeprod.Text + ' foi alterado com sucesso e já esta disponivel para ser vinculado a uma venda !';
+      notificacentroprodutocadastrado.ScheduleNotification(notificacao);
+      notificacentroprodutocadastrado.PresentNotification(notificacao);
+    finally
+      notificacao.Free;
+    end;
+    frmconsultaproduto.Show;
+    frmcadprodutos.Close;
+  except
+   // ShowMessage('Ocorreu um erro ao alterar seu produto !');
+    mostraMensagem('Ocorreu um erro ao alterar seu produto !', 'Ocorreu um erro ao alterar seu produto !', 'OK');
+  end;
+end;
+end;
+
+procedure Tfrmcadprodutos.btncadastrarClick(Sender: TObject);
+var
+  precodoprodutofix: string;
+  notificacao: TNotification;
+begin
+  if(edtnomeprod.Text.Equals('') or edtprecoprod.Text.Equals('') or edtquantprod.Text.Equals('') or edtlucroprod.Text.Equals('') or edtsubcategoria.Text.Equals('') or edtimposto.Text.Equals('') or edtcomissoes.Text.Equals('') or edtdespesasadminis.Text.Equals('') or edtlucrodesajado.Text.Equals('') or edtprecodevenda.Text.Equals('')) then
+  begin
+   // ShowMessage('Campos vazios preencha e tente novamente !');
+    mostraMensagem('Campos vazios preencha e tente novamente !', 'Campos vazios preencha e tente novamente !', 'OK');
+  end
+  else
+  begin
+    //para arrumar caso o usuário tenha digitado , ao invés de .
+    precodoprodutofix := StringReplace(edtprecoprod.Text, ',', '.', [rfReplaceAll]);
+    try
+       dm.insereproduto.Params.ParamByName('prodnome').Value := edtnomeprod.Text;
+       dm.insereproduto.Params.ParamByName('prodvalor').Value := precodoprodutofix;
+       dm.insereproduto.Params.ParamByName('prodquantidade').Value := edtquantprod.text;
+       dm.insereproduto.Params.ParamByName('prodlucro').Value := edtlucroprod.Text;
+       dm.insereproduto.Params.ParamByName('prodsubcategoria').Value := iddasubcate;
+       dm.insereproduto.Prepare;
+       dm.insereproduto.ExecSQL;
+       if(dm.insereproduto.RowsAffected = 1) then
+       begin
+         //ShowMessage('Produto cadastrado com sucesso !');
+         mostraMensagem('Produto cadastrado com sucesso !', 'Produto cadastrado com sucesso !', 'OK');
+        // Caso o cadastro do cliente tenha dado certo
+        notificacao := notificacentroprodutocadastrado.CreateNotification;
+        try
+          notificacao.Name := 'Meu mega Negócio';
+          notificacao.Title := 'Cadastro de um novo produto !';
+          notificacao.AlertBody :=
+            'O seu produto ' + edtnomeprod.Text + ' foi cadastrado com sucesso e já esta disponivel para ser vinculado a uma venda !';
+          notificacentroprodutocadastrado.ScheduleNotification(notificacao);
+          notificacentroprodutocadastrado.PresentNotification(notificacao);
+        finally
+          notificacao.Free;
+        end;
+        edtnomeprod.Text := '';
+        edtprecoprod.Text := '';
+        edtquantprod.Text := '';
+        edtlucroprod.Text := '';
+        edtsubcategoria.Text := '';
+        edtprecodevenda.Text := '';
+        edtimposto.Text := '';
+        edtcomissoes.Text := '';
+        edtdespesasadminis.Text := '';
+        edtlucrodesajado.Text := '';
+       end
+       else
+       begin
+     //    ShowMessage('Não foi possivel cadastrar seu novo produto !');
+         mostraMensagem('Não foi possivel cadastrar seu novo produto !', 'Não foi possivel cadastrar seu novo produto !', 'OK');
+       end;
+    except
+      // ShowMessage('Ocorreu um erro ao conectar ao seu banco de dados !');
+       mostraMensagem('Ocorreu um erro ao conectar ao seu banco de dados !', 'Ocorreu um erro ao conectar ao seu banco de dados !', 'OK');
+    end;
+  end;
+end;
+
+procedure Tfrmcadprodutos.edtcomissoesKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+if not (KeyChar in ['0'..'9', '.', ',', #80]) then  //protege caso o usuário resolva socar texto
+begin
+  KeyChar := #0;
+end;
+end;
+
+procedure Tfrmcadprodutos.edtdespesasadminisKeyDown(Sender: TObject;
+  var Key: Word; var KeyChar: Char; Shift: TShiftState);
+begin
+if not (KeyChar in ['0'..'9', '.', ',', #80]) then  //protege caso o usuário resolva socar texto
+begin
+  KeyChar := #0;
+end;
+end;
+
+procedure Tfrmcadprodutos.edtimpostoKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+if not (KeyChar in ['0'..'9', '.', ',', #80]) then  //protege caso o usuário resolva socar texto
+begin
+  KeyChar := #0;
+end;
+end;
+
+procedure Tfrmcadprodutos.edtlucrodesajadoKeyDown(Sender: TObject;
+  var Key: Word; var KeyChar: Char; Shift: TShiftState);
+  var
+  markup, calcs: real;
+begin
+//caso key igual a enter
+if key = $0D then
+begin
+try
+  //verifica os dados inseridos nas edts de imposto bloqueando o que for maior que 25%
+  //evita que as porcentagens sejam maior que o necessário assim evitando gerar valores negativos !
+  //_______________________________________________VALIDA AS EDTS PARA SEMPRE SEREM MENOR QUE 25
+  if(StrToInt(edtimposto.Text) >= 25) then
+  begin
+    // ShowMessage('A porcentagem de imposto deve ser inferior a 24%');
+     mostraMensagem('A porcentagem de imposto deve ser inferior a 24%', 'A porcentagem de imposto deve ser inferior a 24%', 'OK');
+     abort;
+  end
+  else if(StrToInt(edtcomissoes.Text) >= 25) then
+  begin
+     mostraMensagem('A porcentagem das comissões deve ser inferior a 24%', 'A porcentagem das comissões deve ser inferior a 24%', 'OK');
+     //ShowMessage('A porcentagem das comissões deve ser inferior a 24%');
+     abort;
+  end
+  else if(StrToInt(edtdespesasadminis.Text) >= 25) then
+  begin
+     mostraMensagem('A porcentagem das despesas administrativas deve ser inferior a 24%' , 'A porcentagem das despesas administrativas deve ser inferior a 24%', 'OK');
+     //ShowMessage('A porcentagem das despesas administrativas deve ser inferior a 24%');
+     abort;
+  end
+  else if(StrToInt(edtlucrodesajado.Text) >= 25) then
+  begin
+     //ShowMessage('A porcentagem do lucro desejado deve ser inferior a 24%');
+     mostraMensagem('A porcentagem do lucro desejado deve ser inferior a 24%', 'A porcentagem do lucro desejado deve ser inferior a 24%', 'OK');
+     abort;
+  end;
+ //___________________________________________________________________________
+
+  if(edtprecodevenda.Text.Equals('')) then
+  begin
+    //ShowMessage('Entre com o preço de venda !');
+    mostraMensagem('Entre com o preço de venda !', 'Entre com o preço de venda !', 'OK');
+    abort;
+  end;
+  if(edtimposto.Text.Equals('') or edtcomissoes.Text.Equals('') or edtdespesasadminis.Text.Equals('') or edtlucrodesajado.Text.Equals('')) then
+  begin
+    mostraMensagem('Você esqueceu de informar as porcentagens de lucro de despesas para gerar o preço final Mark-Up', 'Você esqueceu de informar as porcentagens de lucro de despesas para gerar o preço final Mark-Up', 'OK');
+    ShowMessage('Você esqueceu de informar as porcentagens de lucro de despesas para gerar o preço final Mark-Up');
+    abort;
+  end;
+  markup := StrToFloat(edtimposto.Text) + StrToFloat(edtcomissoes.Text) + StrToFloat(edtdespesasadminis.Text) + StrToFloat(edtlucrodesajado.Text);
+  markup := 100 - markup;
+  markup := 100 / markup;
+  calcs := StrToFloat(edtprecodevenda.Text) * markup;
+  edtprecoprod.Text := formatfloat('###,###,##0.00',calcs);
+  calcs := markup * StrToFloat(edtlucrodesajado.Text);
+  edtlucroprod.Text := '';
+  edtlucroprod.Text := formatfloat('###,###,##0.00',calcs);
+  ShowMessage('Seu Mark-Up foi gerado com sucesso !');
+except
+  //PASS
+ // ShowMessage('Ocorreu um erro ao gerar o Mark-Up');
+end;
+end;
+if not (KeyChar in ['0'..'9', '.', ',', #80]) then  //protege caso o usuário resolva socar texto
+begin
+  KeyChar := #0;
+end;
+end;
+
+procedure Tfrmcadprodutos.edtlucroprodKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+if not (KeyChar in ['0'..'9', '.', ',', #80]) then  //protege caso o usuário resolva socar texto
+begin
+  KeyChar := #0;
+end;
+end;
+
+procedure Tfrmcadprodutos.edtnomeprodKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+//DEIXA TUDO MAIÚSCULO NA EDIT
+keychar := UpCase(KeyChar);
+end;
+
+procedure Tfrmcadprodutos.edtprecodevendaKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+if not (KeyChar in ['0'..'9', '.', ',', #80]) then  //protege caso o usuário resolva socar texto
+begin
+  KeyChar := #0;
+end;
+end;
+
+procedure Tfrmcadprodutos.edtprecoprodKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+if not (KeyChar in ['0'..'9', '.', ',', #80]) then  //protege caso o usuário resolva socar texto
+begin
+  KeyChar := #0;
+end;
+end;
+
+procedure Tfrmcadprodutos.edtquantprodKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+if not (KeyChar in ['0'..'9', '.', ',', #80]) then    //protege caso o usuário colocar texto
+begin
+  KeyChar := #0;
+end;
+end;
+
+procedure Tfrmcadprodutos.FormShow(Sender: TObject);
+begin
+if(oque_manu = 'cadastro') then
+begin
+  btncadastrar.Visible := true;
+  btnalterar.Visible := false;
+end
+else
+begin
+  btncadastrar.Visible := false;
+  btnalterar.Visible := true;
+end;
+end;
+
+procedure Tfrmcadprodutos.SpeedButton1Click(Sender: TObject);
+begin
+frmconsultasubcategoria.pegar_id_para_cadastrar_produtos := 'sim';
+frmconsultasubcategoria.ShowModal;
+end;
+
+end.

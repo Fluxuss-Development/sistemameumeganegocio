@@ -1,0 +1,127 @@
+object frmgraficosdosistema: Tfrmgraficosdosistema
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = Single
+  Caption = 'Gr'#225'ficos'
+  ClientHeight = 480
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object Layout1: TLayout
+    Align = Client
+    Size.Width = 640.000000000000000000
+    Size.Height = 480.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object Rectangle1: TRectangle
+      Align = Client
+      Fill.Color = xFF3B3A3A
+      Size.Width = 640.000000000000000000
+      Size.Height = 480.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Rectangle2: TRectangle
+      Align = Center
+      Fill.Color = claWhite
+      Size.Width = 600.000000000000000000
+      Size.Height = 436.000000000000000000
+      Size.PlatformDefault = False
+      object Chart1: TChart
+        Position.X = 14.000000000000000000
+        Position.Y = 16.000000000000000000
+        Foot.Font.StyleExt = {00040000000200000004000000}
+        Legend.Title.Font.StyleExt = {00070000000000000004000000}
+        SubFoot.Font.StyleExt = {00040000000200000004000000}
+        Title.Text.Strings = (
+          'Gr'#225'fico de vendas para hoje !')
+        View3D = False
+        View3DOptions.Orthogonal = False
+        Zoom.Brush.Kind = None
+        Zoom.Pen.Fill.Color = claSilver
+        Color = claWhite
+        TabOrder = 0
+        Size.Width = 275.000000000000000000
+        Size.Height = 209.000000000000000000
+        Size.PlatformDefault = False
+        ColorPaletteIndex = 13
+        object Series1: TFastLineSeries
+          Title = 'Series1'
+          LinePen.Color = xFF4466A3
+          LinePen.Fill.Color = xFF4466A3
+          XValues.Name = 'X'
+          XValues.Order = loNone
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+        end
+      end
+      object Image1: TImage
+        MultiResBitmap.Height = 32
+        MultiResBitmap.Width = 32
+        MultiResBitmap = <
+          item
+            Width = 32
+            Height = 32
+            PNG = {
+              89504E470D0A1A0A0000000D4948445200000020000000200806000000737A7A
+              F4000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+              0254494441545847ED944D68136110867713131572F2E04DF19242EDA928F803
+              6D7A11AF3D249026690F62F7A0087A10444FF122820729683107694AFE20EACD
+              52C49B157FF0A0A0E82D080AD6936054CC92ACCFA45F9664313FB59B56685E18
+              DE99D9ECCC3BF37D596D806D0F5DB1EB4824123396658D63EFB1B7BAAE7FC8E5
+              721FD5631B7D13108FC7F350742D5A0342BE23E460369BFDA4529A47B1EBA856
+              ABD7A00BD8BB7A02D0DC6C6E2E70454024120930F1980A05BAD7EB1D852F6323
+              4C6ED693BAFE58B8191B3E8268343AEAF1780A143F40A349AC843F8F4DC873E2
+              47D04FE249F82C1BB82DF90636B2019DA9CFD1FC19C58788FDF07DECB56ABE4A
+              F33817EF24B16C43C43C116E46CF0268768A9B7D42FC7038BC27168B3DC09DA3
+              F84E781EBB85ED26F6C3299A0DD33C170A8576102F103F0C0683F67D68A0EB11
+              1886E12B97CB37297C86F01785AEC0E789F7E37F836759EB3D72B291ABE496E9
+              FB54DEED051D0530F15E0A1671C7310BB37F4FFE05EB9FCA64322595EA0A044A
+              0D0DC1769DB647C08A0FD1E415AE7C4C3EC3C7E1BBB014B9110804C6D6D3BC1D
+              FE2A80E6D3AC562ECC3E6CC5E7F31D46F573CE70B656AB1DC5BF984AA5EA7FAD
+              4E90891B53B7438B00FECF7E5EB843F345C25DD8F54AA532914EA7BFC8F36432
+              59CBE7F32FC5770BB600F99830E912AEC1AA7FC3A799F452B158ACD67FD0037A
+              99D8095B008D7E405F695EE2721DA1B99C77DFD17C0496699A06677C8CCBF546
+              E53AE25F2676A2E50EB08572A1505855E1A6A0454037B831B113EB12D00F7414
+              D08F899DF8BF36B019133BB1E51B186080ED0E4DFB030281F7E5E8885F320000
+              000049454E44AE426082}
+            FileName = 
+              'C:\Users\Joao\Desktop\TCC\MEU MEGA NEG'#211'CIO V2\imagens\icones\bul' +
+              'lish_32px.png'
+          end>
+        Position.X = 128.000000000000000000
+        Position.Y = 288.000000000000000000
+      end
+      object Chart2: TChart
+        Position.X = 320.000000000000000000
+        Position.Y = 16.000000000000000000
+        Foot.Font.StyleExt = {00040000000200000004000000}
+        Legend.Title.Font.StyleExt = {00070000000000000004000000}
+        SubFoot.Font.StyleExt = {00040000000200000004000000}
+        Title.Text.Strings = (
+          'Gr'#225'fico de lucro para hoje !')
+        View3D = False
+        View3DOptions.Orthogonal = False
+        Zoom.Brush.Kind = None
+        Zoom.Pen.Fill.Color = claSilver
+        Color = claWhite
+        TabOrder = 2
+        Size.Width = 265.000000000000000000
+        Size.Height = 209.000000000000000000
+        Size.PlatformDefault = False
+        ColorPaletteIndex = 13
+        object Series2: TFastLineSeries
+          LinePen.Color = xFF4466A3
+          LinePen.Fill.Color = xFF4466A3
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+        end
+      end
+    end
+  end
+end

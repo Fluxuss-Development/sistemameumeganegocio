@@ -1,0 +1,312 @@
+object frmvenda: Tfrmvenda
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = Single
+  Caption = 'Venda'
+  ClientHeight = 480
+  ClientWidth = 771
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnKeyDown = FormKeyDown
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object Layout1: TLayout
+    Align = Client
+    Size.Width = 771.000000000000000000
+    Size.Height = 480.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object Rectangle1: TRectangle
+      Align = Client
+      Fill.Color = xFF3E3E3E
+      Size.Width = 771.000000000000000000
+      Size.Height = 480.000000000000000000
+      Size.PlatformDefault = False
+      object lsitenvendas: TListView
+        ItemAppearanceClassName = 'TListItemRightDetailAppearance'
+        ItemEditAppearanceClassName = 'TListItemRightDetailShowCheckAppearance'
+        HeaderAppearanceClassName = 'TListHeaderObjects'
+        FooterAppearanceClassName = 'TListHeaderObjects'
+        Align = Right
+        Position.X = 376.000000000000000000
+        Position.Y = 50.000000000000000000
+        Size.Width = 395.000000000000000000
+        Size.Height = 430.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+      end
+      object Layout3: TLayout
+        Align = Top
+        Size.Width = 771.000000000000000000
+        Size.Height = 50.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        object lblcaixa: TLabel
+          Align = Left
+          StyledSettings = [Family, Size, Style]
+          Position.X = 320.000000000000000000
+          Size.Width = 307.000000000000000000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.FontColor = claWhite
+          Text = 'Caixa:'
+          TabOrder = 0
+        end
+        object lblhoradata: TLabel
+          Align = Left
+          StyledSettings = [Family, Size, Style]
+          Margins.Right = 200.000000000000000000
+          Size.Width = 120.000000000000000000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.FontColor = claWhite
+          Text = 'Dia e Hora:'
+          TabOrder = 1
+        end
+        object lblmostracodigodavenda: TLabel
+          Align = Right
+          StyledSettings = [Family, Size, Style]
+          Position.X = 562.000000000000000000
+          Size.Width = 209.000000000000000000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.FontColor = claWhite
+          Text = 'C'#243'digo da venda: N'#227'o esta vendendo !'
+          TabOrder = 2
+        end
+      end
+      object Layout2: TLayout
+        Align = Left
+        Position.Y = 50.000000000000000000
+        Size.Width = 377.000000000000000000
+        Size.Height = 430.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        object Label1: TLabel
+          Align = Top
+          StyledSettings = []
+          Margins.Top = 10.000000000000000000
+          Margins.Bottom = 10.000000000000000000
+          Position.Y = 10.000000000000000000
+          Size.Width = 377.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Family = 'Arial'
+          TextSettings.Font.Size = 20.000000000000000000
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'CPF Cliente'
+          TabOrder = 3
+        end
+        object Label2: TLabel
+          Align = Top
+          StyledSettings = []
+          Margins.Top = 10.000000000000000000
+          Margins.Bottom = 10.000000000000000000
+          Position.Y = 75.000000000000000000
+          Size.Width = 377.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Family = 'Arial'
+          TextSettings.Font.Size = 20.000000000000000000
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'C'#243'digo produto'
+          TabOrder = 2
+        end
+        object Layout4: TLayout
+          Align = Top
+          Position.Y = 107.000000000000000000
+          Size.Width = 377.000000000000000000
+          Size.Height = 30.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 4
+          object edtcodprod: TEdit
+            Touch.InteractiveGestures = [LongTap, DoubleTap]
+            Align = Left
+            TabOrder = 0
+            ReadOnly = True
+            Position.X = 50.000000000000000000
+            Margins.Left = 50.000000000000000000
+            Size.Width = 239.000000000000000000
+            Size.Height = 30.000000000000000000
+            Size.PlatformDefault = False
+          end
+          object btnbuscacodpro: TSpeedButton
+            Align = Right
+            Margins.Left = 10.000000000000000000
+            Position.X = 288.000000000000000000
+            Size.Width = 89.000000000000000000
+            Size.Height = 30.000000000000000000
+            Size.PlatformDefault = False
+            StyleLookup = 'searchtoolbuttonbordered'
+            Text = 'btnbuscacodpro'
+            OnClick = btnbuscacodproClick
+          end
+        end
+        object edtquant: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Top
+          TabOrder = 5
+          Position.X = 50.000000000000000000
+          Position.Y = 179.000000000000000000
+          Margins.Left = 50.000000000000000000
+          Margins.Right = 50.000000000000000000
+          Size.Width = 277.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          OnKeyDown = edtquantKeyDown
+        end
+        object Label3: TLabel
+          Align = Top
+          StyledSettings = []
+          Margins.Top = 10.000000000000000000
+          Margins.Bottom = 10.000000000000000000
+          Position.Y = 147.000000000000000000
+          Size.Width = 377.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Family = 'Arial'
+          TextSettings.Font.Size = 20.000000000000000000
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Quantidade'
+          TabOrder = 1
+        end
+        object Label4: TLabel
+          Align = Top
+          StyledSettings = []
+          Margins.Top = 10.000000000000000000
+          Margins.Bottom = 10.000000000000000000
+          Position.Y = 211.000000000000000000
+          Size.Width = 377.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Family = 'Arial'
+          TextSettings.Font.Size = 20.000000000000000000
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Valor unitario'
+          TabOrder = 0
+        end
+        object edtvalorunit: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Top
+          TabOrder = 6
+          ReadOnly = True
+          Position.X = 50.000000000000000000
+          Position.Y = 243.000000000000000000
+          Margins.Left = 50.000000000000000000
+          Margins.Right = 50.000000000000000000
+          Size.Width = 277.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+        end
+        object Line1: TLine
+          Align = Top
+          LineType = Bottom
+          Position.Y = 265.000000000000000000
+          Size.Width = 377.000000000000000000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          Stroke.Color = claChartreuse
+          Stroke.Thickness = 10.000000000000000000
+        end
+        object lblventotal: TLabel
+          Align = Top
+          StyledSettings = [Style]
+          Margins.Top = 20.000000000000000000
+          Position.Y = 335.000000000000000000
+          Size.Width = 377.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Family = 'Arial'
+          TextSettings.Font.Size = 20.000000000000000000
+          TextSettings.FontColor = claWhite
+          Text = 'Total da venda:'
+          TabOrder = 8
+        end
+        object Label6: TLabel
+          Align = Top
+          StyledSettings = [Family, Size, Style]
+          Margins.Top = 20.000000000000000000
+          Position.Y = 372.000000000000000000
+          Size.Width = 377.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.FontColor = claWhite
+          Text = 'Atalhos: F1 Fechar Venda, F6 Cancelar venda !'
+          TabOrder = 9
+        end
+        object Layout5: TLayout
+          Align = Top
+          Position.Y = 37.000000000000000000
+          Size.Width = 377.000000000000000000
+          Size.Height = 28.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 10
+          object edtcpfcli: TEdit
+            Touch.InteractiveGestures = [LongTap, DoubleTap]
+            Align = Left
+            TabOrder = 0
+            Position.X = 50.000000000000000000
+            Margins.Left = 50.000000000000000000
+            Margins.Right = 50.000000000000000000
+            Size.Width = 247.000000000000000000
+            Size.Height = 28.000000000000000000
+            Size.PlatformDefault = False
+            OnChange = edtcpfcliChange
+            OnKeyDown = edtcpfcliKeyDown
+          end
+          object btnbuscarclientecpf: TSpeedButton
+            Align = Right
+            Position.X = 297.000000000000000000
+            Size.Width = 80.000000000000000000
+            Size.Height = 28.000000000000000000
+            Size.PlatformDefault = False
+            StyleLookup = 'searchtoolbuttonbordered'
+            Text = 'btnbuscarclientecpf'
+          end
+        end
+      end
+    end
+  end
+  object Timer1: TTimer
+    OnTimer = Timer1Timer
+    Left = 616
+    Top = 8
+  end
+  object BindSourceDB1: TBindSourceDB
+    DataSet = dm.consultaitensvenda
+    ScopeMappings = <>
+    Left = 368
+    Top = 224
+  end
+  object BindingsList1: TBindingsList
+    Methods = <>
+    OutputConverters = <>
+    Left = 20
+    Top = 5
+    object LinkFillControlToField1: TLinkFillControlToField
+      Category = 'Quick Bindings'
+      Control = lsitenvendas
+      Track = True
+      FillDataSource = BindSourceDB1
+      FillDisplayFieldName = 'prodnome'
+      AutoFill = True
+      FillExpressions = <
+        item
+          SourceMemberName = 'itequant'
+          ControlMemberName = 'Detail'
+        end>
+      FillHeaderExpressions = <>
+      FillBreakGroups = <>
+    end
+  end
+end

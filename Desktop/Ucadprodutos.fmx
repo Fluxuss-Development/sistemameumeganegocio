@@ -1,0 +1,418 @@
+object frmcadprodutos: Tfrmcadprodutos
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = Single
+  Caption = 'Gerenciamento Produtos'
+  ClientHeight = 540
+  ClientWidth = 746
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object Layout1: TLayout
+    Align = Client
+    Size.Width = 746.000000000000000000
+    Size.Height = 540.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object Rectangle1: TRectangle
+      Align = Client
+      Fill.Color = xFF292929
+      Size.Width = 746.000000000000000000
+      Size.Height = 540.000000000000000000
+      Size.PlatformDefault = False
+      object Layout2: TLayout
+        Align = Left
+        Size.Width = 361.000000000000000000
+        Size.Height = 540.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        object edtnomeprod: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Top
+          TabOrder = 0
+          MaxLength = 100
+          Position.Y = 88.000000000000000000
+          Size.Width = 361.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          TextPrompt = 'EXEMPLO: DORITOS'
+          OnKeyDown = edtnomeprodKeyDown
+        end
+        object Label1: TLabel
+          Align = Top
+          StyledSettings = [Family, Size, Style]
+          Margins.Top = 20.000000000000000000
+          Margins.Bottom = 10.000000000000000000
+          Position.Y = 61.000000000000000000
+          Size.Width = 361.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Nome do produto'
+          TabOrder = 1
+        end
+        object Label2: TLabel
+          Align = Top
+          StyledSettings = [Family, Size, Style]
+          Margins.Top = 20.000000000000000000
+          Margins.Bottom = 10.000000000000000000
+          Position.Y = 268.000000000000000000
+          Size.Width = 361.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Pre'#231'o do produto'
+          TabOrder = 2
+        end
+        object edtprecoprod: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Top
+          TabOrder = 3
+          ReadOnly = True
+          Position.Y = 295.000000000000000000
+          Size.Width = 361.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          TextPrompt = 'Gerado com o Mark-UP'
+          OnKeyDown = edtprecoprodKeyDown
+        end
+        object Label3: TLabel
+          Align = Top
+          StyledSettings = [Family, Size, Style]
+          Margins.Top = 20.000000000000000000
+          Margins.Bottom = 10.000000000000000000
+          Position.Y = 130.000000000000000000
+          Size.Width = 361.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Quantidade do produto'
+          TabOrder = 4
+        end
+        object edtquantprod: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Top
+          TabOrder = 5
+          Position.Y = 157.000000000000000000
+          Size.Width = 361.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          TextPrompt = 'EXEMPLO: 10000'
+          OnKeyDown = edtquantprodKeyDown
+        end
+        object edtlucroprod: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Top
+          TabOrder = 6
+          ReadOnly = True
+          Position.Y = 364.000000000000000000
+          Size.Width = 361.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          TextPrompt = 'Gerado com o Mark-UP'
+          OnKeyDown = edtlucroprodKeyDown
+        end
+        object Label4: TLabel
+          Align = Top
+          StyledSettings = [Family, Size, Style]
+          Margins.Top = 20.000000000000000000
+          Margins.Bottom = 10.000000000000000000
+          Position.Y = 337.000000000000000000
+          Size.Width = 361.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Lucro com o produto'
+          TabOrder = 7
+        end
+        object Label5: TLabel
+          Align = Top
+          StyledSettings = [Family, Size, Style]
+          Margins.Top = 20.000000000000000000
+          Margins.Bottom = 10.000000000000000000
+          Position.Y = 406.000000000000000000
+          Size.Width = 361.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Subcategoria'
+          TabOrder = 8
+        end
+        object Layout3: TLayout
+          Align = Top
+          Position.Y = 433.000000000000000000
+          Size.Width = 361.000000000000000000
+          Size.Height = 30.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 9
+          object edtsubcategoria: TEdit
+            Touch.InteractiveGestures = [LongTap, DoubleTap]
+            Align = Left
+            TabOrder = 0
+            ReadOnly = True
+            EnableDragHighlight = False
+            Size.Width = 233.000000000000000000
+            Size.Height = 30.000000000000000000
+            Size.PlatformDefault = False
+          end
+          object SpeedButton1: TSpeedButton
+            Align = Right
+            Margins.Right = 40.000000000000000000
+            Position.X = 241.000000000000000000
+            Size.Width = 80.000000000000000000
+            Size.Height = 30.000000000000000000
+            Size.PlatformDefault = False
+            StyleLookup = 'searchtoolbuttonbordered'
+            Text = 'SpeedButton1'
+            OnClick = SpeedButton1Click
+          end
+        end
+        object btncadastrar: TRoundRect
+          Align = Top
+          Fill.Color = claCrimson
+          Margins.Top = 20.000000000000000000
+          Position.Y = 483.000000000000000000
+          Size.Width = 361.000000000000000000
+          Size.Height = 33.000000000000000000
+          Size.PlatformDefault = False
+          Stroke.Thickness = 0.000000000000000000
+          Visible = False
+          OnClick = btncadastrarClick
+          object Label6: TLabel
+            Align = Center
+            StyledSettings = [Family, Size, Style]
+            TextSettings.FontColor = claWhite
+            TextSettings.HorzAlign = Center
+            Text = 'Cadastrar'
+            TabOrder = 0
+          end
+        end
+        object btnalterar: TRoundRect
+          Align = Top
+          Fill.Color = claCrimson
+          Margins.Top = 20.000000000000000000
+          Position.Y = 483.000000000000000000
+          Size.Width = 361.000000000000000000
+          Size.Height = 33.000000000000000000
+          Size.PlatformDefault = False
+          Stroke.Thickness = 0.000000000000000000
+          Visible = False
+          OnClick = btnalterarClick
+          object alterar: TLabel
+            Align = Center
+            StyledSettings = [Family, Size, Style]
+            TextSettings.FontColor = claWhite
+            TextSettings.HorzAlign = Center
+            Text = 'Alterar'
+            TabOrder = 0
+          end
+        end
+        object Label7: TLabel
+          Align = Top
+          StyledSettings = [Family]
+          Size.Width = 361.000000000000000000
+          Size.Height = 41.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Size = 18.000000000000000000
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Informa'#231#245'es de produto'
+          TabOrder = 10
+        end
+        object edtprecodevenda: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Top
+          TabOrder = 11
+          Position.Y = 226.000000000000000000
+          Size.Width = 361.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          TextPrompt = 'PRE'#199'O DE VENDA DO PRODUTO'
+          OnKeyDown = edtprecodevendaKeyDown
+        end
+        object Label15: TLabel
+          Align = Top
+          StyledSettings = [Family, Size, Style]
+          Margins.Top = 20.000000000000000000
+          Margins.Bottom = 10.000000000000000000
+          Position.Y = 199.000000000000000000
+          Size.Width = 361.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Pre'#231'o de compra do fornecedor'
+          TabOrder = 12
+        end
+      end
+      object Layout4: TLayout
+        Align = Right
+        Position.X = 376.000000000000000000
+        Size.Width = 370.000000000000000000
+        Size.Height = 540.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        object Label8: TLabel
+          Align = Top
+          StyledSettings = [Family]
+          Size.Width = 370.000000000000000000
+          Size.Height = 41.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Size = 18.000000000000000000
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Informa'#231#245'es de Mark-Up'
+          TabOrder = 10
+        end
+        object edtimposto: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Top
+          TabOrder = 11
+          Position.Y = 88.000000000000000000
+          Size.Width = 370.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          TextPrompt = 'IMPOSTOS GERAIS EM PORCENTAGEM'
+          OnKeyDown = edtimpostoKeyDown
+        end
+        object Label9: TLabel
+          Align = Top
+          StyledSettings = [Family, Size, Style]
+          Margins.Top = 20.000000000000000000
+          Margins.Bottom = 10.000000000000000000
+          Position.Y = 61.000000000000000000
+          Size.Width = 370.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Impostos(Geral)'
+          TabOrder = 12
+        end
+        object Label10: TLabel
+          Align = Top
+          StyledSettings = [Family, Size, Style]
+          Margins.Top = 20.000000000000000000
+          Margins.Bottom = 10.000000000000000000
+          Position.Y = 130.000000000000000000
+          Size.Width = 370.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Comiss'#245'es de vendas'
+          TabOrder = 13
+        end
+        object edtcomissoes: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Top
+          TabOrder = 14
+          Position.Y = 157.000000000000000000
+          Size.Width = 370.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          TextPrompt = 'COMISS'#213'ES DE VENDA EM PORCENTAGEM'
+          OnKeyDown = edtcomissoesKeyDown
+        end
+        object Label11: TLabel
+          Align = Top
+          StyledSettings = [Family, Size, Style]
+          Margins.Top = 20.000000000000000000
+          Margins.Bottom = 10.000000000000000000
+          Position.Y = 199.000000000000000000
+          Size.Width = 370.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Despesas administrativas'
+          TabOrder = 15
+        end
+        object edtdespesasadminis: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Top
+          TabOrder = 16
+          Position.Y = 226.000000000000000000
+          Size.Width = 370.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          TextPrompt = 'DESPESAS ADMINISTRATIVAS EM PORCENTAGEM'
+          OnKeyDown = edtdespesasadminisKeyDown
+        end
+        object Label12: TLabel
+          Align = Top
+          StyledSettings = [Family, Size, Style]
+          Margins.Top = 20.000000000000000000
+          Margins.Bottom = 10.000000000000000000
+          Position.Y = 268.000000000000000000
+          Size.Width = 370.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Lucro desejado'
+          TabOrder = 17
+        end
+        object edtlucrodesajado: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Top
+          TabOrder = 18
+          Position.Y = 295.000000000000000000
+          Size.Width = 370.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          TextPrompt = 'LUCRO DESEJADO EM PORCENTAGEM'
+          OnKeyDown = edtlucrodesajadoKeyDown
+        end
+        object Label13: TLabel
+          Align = Top
+          StyledSettings = [Family, Size, Style]
+          Position.Y = 364.000000000000000000
+          Size.Width = 370.000000000000000000
+          Size.Height = 36.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.FontColor = claWhite
+          Text = 'MARKUP = 100/(100-('#931'(Impostos + Lucro Desejado)))'
+          TabOrder = 19
+        end
+        object Label14: TLabel
+          Align = Top
+          StyledSettings = [Family, Size, Style]
+          Margins.Top = 20.000000000000000000
+          Margins.Bottom = 10.000000000000000000
+          Position.Y = 337.000000000000000000
+          Size.Width = 370.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.FontColor = claWhite
+          Text = '! C'#225'lculo utilizado: '
+          TabOrder = 20
+        end
+      end
+    end
+    object Line1: TLine
+      LineType = Right
+      Position.X = 360.000000000000000000
+      Position.Y = -16.000000000000000000
+      Size.Width = 9.000000000000000000
+      Size.Height = 553.000000000000000000
+      Size.PlatformDefault = False
+      Stroke.Color = claChartreuse
+      Stroke.Thickness = 9.000000000000000000
+    end
+  end
+  object notificacentroprodutocadastrado: TNotificationCenter
+    Left = 24
+    Top = 32
+  end
+end

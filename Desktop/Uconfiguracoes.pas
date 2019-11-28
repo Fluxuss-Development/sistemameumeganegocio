@@ -1,0 +1,141 @@
+unit Uconfiguracoes;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts, FMX.Ani;
+
+type
+  Tfrmconfiguracoes = class(TForm)
+    Layout1: TLayout;
+    Rectangle1: TRectangle;
+    Layout2: TLayout;
+    Layout3: TLayout;
+    Rectangle2: TRectangle;
+    Label1: TLabel;
+    btngerenciafuncionarios: TRoundRect;
+    Label2: TLabel;
+    btnmetodospag: TRoundRect;
+    Label3: TLabel;
+    btnabout: TRoundRect;
+    Label4: TLabel;
+    ScaleX: TFloatAnimation;
+    ScaleY: TFloatAnimation;
+    FloatAnimation1: TFloatAnimation;
+    FloatAnimation2: TFloatAnimation;
+    FloatAnimation3: TFloatAnimation;
+    FloatAnimation4: TFloatAnimation;
+    btnauditoriadosistema: TRoundRect;
+    Label5: TLabel;
+    lblinfodogerenciafuncionarios: TLabel;
+    lblinfodogerenciapagamento: TLabel;
+    lblinfodoauditoria: TLabel;
+    lblinfosobreosoftware: TLabel;
+    FloatAnimation5: TFloatAnimation;
+    FloatAnimation6: TFloatAnimation;
+    procedure btnmetodospagClick(Sender: TObject);
+    procedure btnaboutClick(Sender: TObject);
+    procedure btngerenciafuncionariosClick(Sender: TObject);
+    procedure btngerenciafuncionariosMouseEnter(Sender: TObject);
+    procedure btngerenciafuncionariosMouseLeave(Sender: TObject);
+    procedure btnmetodospagMouseEnter(Sender: TObject);
+    procedure btnmetodospagMouseLeave(Sender: TObject);
+    procedure btnauditoriadosistemaMouseEnter(Sender: TObject);
+    procedure btnauditoriadosistemaMouseLeave(Sender: TObject);
+    procedure btnaboutMouseEnter(Sender: TObject);
+    procedure btnaboutMouseLeave(Sender: TObject);
+    procedure btnauditoriadosistemaClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmconfiguracoes: Tfrmconfiguracoes;
+
+implementation
+
+{$R *.fmx}
+
+uses Ugerenciametodospag, Umodulo, Ugerenciafuncionarios, Uauditoria;
+
+
+//DLL DAS MENSAGENS CUSTOMIZADAS
+function mostraMensagem(Msg1, Msg2, btn1: string): integer; stdcall;
+  external 'PexibirMensagem.dll' name 'mostraMensagem';
+//FIM DO DLL
+
+procedure Tfrmconfiguracoes.btnaboutClick(Sender: TObject);
+begin
+  mostraMensagem('|V 2.2 - Compilação 27/11/2019 ÀS 23:30 | Meu mega negócio | ', 'Um projeto Informatizado de sistemas de vendas, Apresentado como trabalho de conclusão de curso e depois disponibilizado gratuitamente online !', 'Ok, entendido !');
+end;
+
+procedure Tfrmconfiguracoes.btnaboutMouseEnter(Sender: TObject);
+begin
+lblinfosobreosoftware.Visible := true;
+end;
+
+procedure Tfrmconfiguracoes.btnaboutMouseLeave(Sender: TObject);
+begin
+lblinfosobreosoftware.Visible := false;
+end;
+
+procedure Tfrmconfiguracoes.btnauditoriadosistemaClick(Sender: TObject);
+begin
+frmconfiguracoes.Close;
+frmauditoria.Show;
+end;
+
+procedure Tfrmconfiguracoes.btnauditoriadosistemaMouseEnter(Sender: TObject);
+begin
+lblinfodoauditoria.Visible := true;
+end;
+
+procedure Tfrmconfiguracoes.btnauditoriadosistemaMouseLeave(Sender: TObject);
+begin
+lblinfodoauditoria.Visible := false;
+end;
+
+procedure Tfrmconfiguracoes.btngerenciafuncionariosClick(Sender: TObject);
+begin
+frmgerfuncionarios.btncadastrar.Visible := true;
+frmgerfuncionarios.btnalterar.Visible := false;
+frmgerfuncionarios.edtnomeempresario.Text := '';
+frmgerfuncionarios.edtsenha.Text := '';
+dm.consultaempresario.Close;
+frmgerfuncionarios.Show;
+end;
+
+procedure Tfrmconfiguracoes.btngerenciafuncionariosMouseEnter(Sender: TObject);
+begin
+lblinfodogerenciafuncionarios.Visible := true;
+end;
+
+procedure Tfrmconfiguracoes.btngerenciafuncionariosMouseLeave(Sender: TObject);
+begin
+lblinfodogerenciafuncionarios.Visible := False;
+end;
+
+procedure Tfrmconfiguracoes.btnmetodospagClick(Sender: TObject);
+begin
+frmmetodopag.btnalterar.Visible := false;
+frmmetodopag.btncadastrar.Visible := true;
+frmmetodopag.edtnomemetodopag.Text := '';
+dm.consultametodopag.Close;
+frmmetodopag.Show;
+end;
+
+procedure Tfrmconfiguracoes.btnmetodospagMouseEnter(Sender: TObject);
+begin
+lblinfodogerenciapagamento.Visible := true;
+end;
+
+procedure Tfrmconfiguracoes.btnmetodospagMouseLeave(Sender: TObject);
+begin
+lblinfodogerenciapagamento.Visible := false;
+end;
+
+end.

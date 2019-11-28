@@ -1,0 +1,47 @@
+unit Uauditoria;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts;
+
+type
+  Tfrmauditoria = class(TForm)
+    Rectangle1: TRectangle;
+    Layout1: TLayout;
+    lblinfo: TLabel;
+    btnlogalteracoes: TRoundRect;
+    btnativaoudesativaproduto: TRoundRect;
+    Label1: TLabel;
+    RoundRect1: TRoundRect;
+    Label2: TLabel;
+    procedure FormShow(Sender: TObject);
+    procedure btnlogalteracoesClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmauditoria: Tfrmauditoria;
+
+implementation
+
+{$R *.fmx}
+
+uses Ulogin, Ulogalteracoes;
+
+procedure Tfrmauditoria.btnlogalteracoesClick(Sender: TObject);
+begin
+frmlogalteracoes.ShowModal;
+end;
+
+procedure Tfrmauditoria.FormShow(Sender: TObject);
+begin
+lblinfo.Text := 'Olá ' + frmlogin.nome_do_usuario_logado_para_proteger_integridade_do_sistema + ' a partir desse ponto do sistema todas as suas ações serão armazenadas em um log !';
+end;
+
+end.

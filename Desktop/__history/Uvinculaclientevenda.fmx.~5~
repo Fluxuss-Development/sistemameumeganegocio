@@ -1,0 +1,123 @@
+object frmvinculaclientevenda: Tfrmvinculaclientevenda
+  Left = 0
+  Top = 0
+  Caption = 'Vincular cliente venda'
+  ClientHeight = 480
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object Layout1: TLayout
+    Align = Client
+    Size.Width = 640.000000000000000000
+    Size.Height = 480.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object Rectangle1: TRectangle
+      Align = Client
+      Fill.Color = claWhite
+      Size.Width = 640.000000000000000000
+      Size.Height = 480.000000000000000000
+      Size.PlatformDefault = False
+      object Layout2: TLayout
+        Align = Top
+        Size.Width = 640.000000000000000000
+        Size.Height = 41.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        object edtbuscar: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Left
+          TabOrder = 0
+          Size.Width = 513.000000000000000000
+          Size.Height = 41.000000000000000000
+          Size.PlatformDefault = False
+          TextPrompt = 'Digite o nome do cliente'
+        end
+        object btnbuscar: TRoundRect
+          Align = Right
+          Fill.Color = claCrimson
+          Margins.Left = 10.000000000000000000
+          Margins.Top = 5.000000000000000000
+          Margins.Right = 10.000000000000000000
+          Margins.Bottom = 5.000000000000000000
+          Position.X = 526.000000000000000000
+          Position.Y = 5.000000000000000000
+          Size.Width = 104.000000000000000000
+          Size.Height = 31.000000000000000000
+          Size.PlatformDefault = False
+          Stroke.Thickness = 0.000000000000000000
+          OnClick = btnbuscarClick
+          object Label2: TLabel
+            Align = Center
+            StyledSettings = [Family, Size, Style]
+            TextSettings.FontColor = claWhite
+            TextSettings.HorzAlign = Center
+            Text = 'Buscar'
+            TabOrder = 0
+          end
+        end
+      end
+      object lsclientevenda: TListView
+        ItemAppearanceClassName = 'TListItemRightDetailAppearance'
+        ItemEditAppearanceClassName = 'TListItemRightDetailShowCheckAppearance'
+        HeaderAppearanceClassName = 'TListHeaderObjects'
+        FooterAppearanceClassName = 'TListHeaderObjects'
+        Align = Client
+        Size.Width = 640.000000000000000000
+        Size.Height = 389.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        OnItemClickEx = lsclientevendaItemClickEx
+      end
+      object Layout3: TLayout
+        Align = Bottom
+        Position.Y = 430.000000000000000000
+        Size.Width = 640.000000000000000000
+        Size.Height = 50.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        object Label1: TLabel
+          Align = Center
+          StyledSettings = [Family, FontColor]
+          Size.Width = 416.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Size = 16.000000000000000000
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+          TextSettings.HorzAlign = Center
+          Text = 'Clique sobre um cliente para vincular a sua venda !'
+          TabOrder = 0
+        end
+      end
+    end
+  end
+  object BindSourceDB1: TBindSourceDB
+    DataSet = dm.consultacliente
+    ScopeMappings = <>
+    Left = 304
+    Top = 224
+  end
+  object BindingsList1: TBindingsList
+    Methods = <>
+    OutputConverters = <>
+    Left = 20
+    Top = 5
+    object LinkFillControlToField1: TLinkFillControlToField
+      Category = 'Quick Bindings'
+      Control = lsclientevenda
+      Track = True
+      FillDataSource = BindSourceDB1
+      FillDisplayFieldName = 'clinome'
+      AutoFill = True
+      FillExpressions = <
+        item
+          SourceMemberName = 'clicpf'
+          ControlMemberName = 'Detail'
+        end>
+      FillHeaderExpressions = <>
+      FillBreakGroups = <>
+    end
+  end
+end

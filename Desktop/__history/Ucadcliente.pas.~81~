@@ -1,0 +1,243 @@
+unit Ucadcliente;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes,
+  System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
+  FMX.Controls.Presentation, FMX.Edit, FMX.Objects, FMX.Layouts,
+  System.Notification, FireDAC.Stan.Param;
+                        //evida warnings FireDAC.Stan.Param
+type
+  Tfrmcadcliente = class(TForm)
+    Layout1: TLayout;
+    Rectangle1: TRectangle;
+    Layout2: TLayout;
+    edtnomecliente: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    edttelefone: TEdit;
+    Label3: TLabel;
+    edtendereco: TEdit;
+    Label4: TLabel;
+    edtcpf: TEdit;
+    btncadastrar: TRoundRect;
+    Label5: TLabel;
+    btnalterar: TRoundRect;
+    Alterar: TLabel;
+    notificacentralcadastrocliente: TNotificationCenter;
+    procedure FormShow(Sender: TObject);
+    procedure btncadastrarClick(Sender: TObject);
+    procedure btnalterarClick(Sender: TObject);
+    procedure edtcpfKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
+      Shift: TShiftState);
+    procedure edtnomeclienteKeyDown(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
+    procedure edttelefoneKeyDown(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
+    procedure edtenderecoKeyDown(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    // variável que verifica se é cadastrar ou alterar
+    oque_e: string;
+    clicod: integer;
+  end;
+
+var
+  frmcadcliente: Tfrmcadcliente;
+
+implementation
+
+{$R *.fmx}
+
+uses Umodulo, Uconsultaclientes, UvalidaCPF;
+
+//DLL DAS MENSAGENS CUSTOMIZADAS
+function mostraMensagem(Msg1, Msg2, btn1: string): integer; stdcall;
+  external 'PexibirMensagem.dll' name 'mostraMensagem';
+//FIM DO DLL
+
+procedure Tfrmcadcliente.btnalterarClick(Sender: TObject);
+var
+  notificacao: TNotification;
+begin
+if(edtnomecliente.Text.Equals('') or edttelefone.Text.Equals('') or edtendereco.Text.Equals('')) then
+begin
+  //ShowMessage('Campos em branco preencha e tente novamente !');
+  mostraMensagem('Campos em branco preencha e tente novamente !', 'Campos em branco preencha e tente novamente !', 'OK');
+end
+else
+begin
+  dm.alteracliente.Params.ParamByName('clinome').Value := edtnomecliente.Text;
+  dm.alteracliente.Params.ParamByName('clifone').Value := edttelefone.Text;
+  dm.alteracliente.Params.ParamByName('cliendereco').Value := edtendereco.Text;
+  dm.alteracliente.Params.ParamByName('clicpf').Value := edtcpf.Text;
+  dm.alteracliente.Params.ParamByName('clicod').Value := clicod;
+  dm.alteracliente.Prepare;
+  dm.alteracliente.ExecSQL;
+  //ShowMessage('Seu cliente foi atualizado com sucesso !');
+  mostraMensagem('Seu cliente foi atualizado com sucesso !', 'Seu cliente foi atualizado com sucesso !', 'OK');
+  edtnomecliente.Text := '';
+  edttelefone.Text := '';
+  edtendereco.Text := '';
+  edtcpf.Text := '';
+  frmcadcliente.Close;
+  // Caso o alterar do cliente tenha dado certo
+  notificacao := notificacentralcadastrocliente.CreateNotification;
+  try
+   notificacao.Name := 'Meu mega Negócio';
+   notificacao.Title := 'Alteração de cliente !';
+   notificacao.AlertBody :=
+            'O seu cliente: ' + edtnomecliente.Text + ' foi alterado com sucesso !';
+   notificacentralcadastrocliente.ScheduleNotification(notificacao);
+   notificacentralcadastrocliente.PresentNotification(notificacao);
+   finally
+   notificacao.Free;
+   end;
+  frmconsultaclientes.Show;
+end;
+end;
+
+procedure Tfrmcadcliente.btncadastrarClick(Sender: TObject);
+var
+  notificacao: TNotification;
+begin
+  if (edtnomecliente.Text.Equals('') or edttelefone.Text.Equals('') or
+    edtendereco.Text.Equals('') or edtcpf.Text.Equals('')) then
+  begin
+   // ShowMessage
+   //   ('Desculpe os campos não podem estar vazios ! preencha todos e tente novamente !');
+      mostraMensagem('Desculpe os campos não podem estar vazios ! preencha todos e tente novamente !', 'Desculpe os campos não podem estar vazios ! preencha todos e tente novamente !', 'OK');
+      //esse aborta da um break para impedir que seja cadastrado um cliente se o campo estiver vazio
+      abort;
+  end
+  else if(isCPF(edtcpf.Text) = False) then    //verifica usando o cálculo de cpf se ele é válido
+  begin
+    // ShowMessage('Erro de integridade do sistema, esse cpf não á válido !');
+     mostraMensagem('Erro de integridade do sistema, esse cpf não á válido !', 'Erro de integridade do sistema, esse cpf não á válido !', 'OK');
+     abort;
+  end
+  else
+  dm.consultacliente.Active := false;
+  dm.consultacliente.SQL.Text := 'select * from clientes where clicpf = ' + QuotedStr(edtcpf.Text);
+  dm.consultacliente.Active := true;
+  if(dm.consultacliente.RecordCount = 1) then
+  begin
+   // ShowMessage('Já existe um cliente com esse cpf !');
+    mostraMensagem('Já existe um cliente com esse cpf !', 'Já existe um cliente com esse cpf !', 'OK');
+  end
+  else
+  begin
+    try
+      // inicia a lógica para gravar os dados no banco de dados
+      dm.inserecliente.Params.ParamByName('clinome').Value :=
+        edtnomecliente.Text;
+      dm.inserecliente.Params.ParamByName('clifone').Value := edttelefone.Text;
+      dm.inserecliente.Params.ParamByName('cliendereco').Value :=
+        edtendereco.Text;
+      dm.inserecliente.Params.ParamByName('clicpf').Value := edtcpf.Text;
+      dm.inserecliente.Prepare;
+      dm.inserecliente.ExecSQL;
+      // caso tenha dado certo !
+      if (dm.inserecliente.RowsAffected = 1) then
+      begin
+        //ShowMessage('Seu cliente foi cadastrado com sucesso !');
+        mostraMensagem('Seu cliente foi cadastrado com sucesso !', 'Seu cliente foi cadastrado com sucesso !', 'OK');
+        // Caso o cadastro do cliente tenha dado certo
+        notificacao := notificacentralcadastrocliente.CreateNotification;
+        try
+          notificacao.Name := 'Meu mega Negócio';
+          notificacao.Title := 'Cadastro de um novo cliente !';
+          notificacao.AlertBody :=
+            'O seu cliente: ' + edtnomecliente.Text + ' foi cadastrado com sucesso !';
+          notificacentralcadastrocliente.ScheduleNotification(notificacao);
+          notificacentralcadastrocliente.PresentNotification(notificacao);
+        finally
+          notificacao.Free;
+        end;
+        edtnomecliente.Text := '';
+        edttelefone.Text := '';
+        edtendereco.Text := '';
+        edtcpf.Text := '';
+      end
+      else
+      begin
+      //  ShowMessage
+      //    ('Não foi possivel cadastrar seu cliente ! tente novamente mais tarde !');
+          mostraMensagem('Não foi possivel cadastrar seu cliente ! tente novamente mais tarde !', 'Não foi possivel cadastrar seu cliente ! tente novamente mais tarde !', 'OK');
+      end;
+    except
+    //  ShowMessage('Não foi possivel efetuar as ações no seu banco de dados !');
+      mostraMensagem('Não foi possivel efetuar as ações no seu banco de dados !', 'Não foi possivel efetuar as ações no seu banco de dados !', 'OK');
+    end;
+  end;
+end;
+
+//keydown tem a mesma função do on keypress do vcl
+//padrão de keys do firemonkey é baseado no da microsoft
+//https://docs.microsoft.com/en-us/windows/desktop/inputdev/virtual-key-codes
+procedure Tfrmcadcliente.edtcpfKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+if(Key = $01) or (Key = $02) or (Key = $09) then
+begin
+  //ShowMessage('DEBUG');
+  //$01 caso o usuário clique com o botão esquerdo a mensagem não aparecer para ele !
+  //$02 caso o usuário clique com o botão direito a mensagem não aparecer para ele !
+  //$09 caso o usuário aperte tab
+  //no firemonkey a validação tem que ser obrigatoriamente feito dessa forma !
+  abort;
+end
+else if(Key = $08) then
+begin
+  Key := $08;    //$08 aqui caso o usuário tente deletar alguma coisa não aparecer a mensagem para ele !
+end
+else if not (KeyChar in ['0'..'9', #8, #27, #32]) then
+begin
+  KeyChar := #0;
+  ShowMessage('Apenas Números !');
+  mostraMensagem('', '', 'OK');
+end;
+end;
+
+procedure Tfrmcadcliente.edtenderecoKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+//DEIXA TUDO MAIÚSCULO NA EDIT
+keychar := UpCase(KeyChar);
+end;
+
+procedure Tfrmcadcliente.edtnomeclienteKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+//DEIXA TUDO MAIÚSCULO NA EDIT
+keychar := UpCase(KeyChar);
+end;
+
+procedure Tfrmcadcliente.edttelefoneKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+//DEIXA TUDO MAIÚSCULO NA EDIT
+keychar := UpCase(KeyChar);
+end;
+
+//valida para ver se é um cadastro ou alteração
+procedure Tfrmcadcliente.FormShow(Sender: TObject);
+begin
+  if (oque_e = 'cadastro') then
+  begin
+    btncadastrar.Visible := true;
+    btnalterar.Visible := false;
+  end
+  else
+  begin
+    btncadastrar.Visible := false;
+    btnalterar.Visible := true;
+  end;
+end;
+
+end.

@@ -1,0 +1,33 @@
+unit Ulogalteracoes;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs;
+
+type
+  Tfrmlogalteracoes = class(TForm)
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmlogalteracoes: Tfrmlogalteracoes;
+
+implementation
+
+{$R *.fmx}
+
+uses Uauditoria;
+
+procedure Tfrmlogalteracoes.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+frmauditoria.ShowModal;
+end;
+
+end.

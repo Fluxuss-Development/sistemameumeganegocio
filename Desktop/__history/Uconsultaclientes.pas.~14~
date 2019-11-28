@@ -1,0 +1,68 @@
+unit Uconsultaclientes;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
+  FMX.Ani, FMX.StdCtrls, FMX.Objects, FMX.Controls.Presentation, FMX.Edit,
+  FMX.ListView, FMX.Layouts, System.Rtti, System.Bindings.Outputs,
+  Fmx.Bind.Editors, Data.Bind.EngExt, Fmx.Bind.DBEngExt, Data.Bind.Components,
+  Data.Bind.DBScope;
+
+type
+  Tfrmconsultaclientes = class(TForm)
+    Layout1: TLayout;
+    Layout2: TLayout;
+    lsconsultacliente: TListView;
+    edtbuscar: TEdit;
+    BtnBuscar: TRoundRect;
+    Label1: TLabel;
+    ScaleX: TFloatAnimation;
+    ScaleY: TFloatAnimation;
+    Layout3: TLayout;
+    Label2: TLabel;
+    BindSourceDB1: TBindSourceDB;
+    BindingsList1: TBindingsList;
+    LinkFillControlToField1: TLinkFillControlToField;
+    procedure BtnBuscarClick(Sender: TObject);
+    procedure lsconsultaclienteItemClickEx(const Sender: TObject;
+      ItemIndex: Integer; const LocalClickPos: TPointF;
+      const ItemObject: TListItemDrawable);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmconsultaclientes: Tfrmconsultaclientes;
+
+implementation
+
+{$R *.fmx}
+
+uses Umodulo, Ucadcliente;
+
+procedure Tfrmconsultaclientes.BtnBuscarClick(Sender: TObject);
+begin
+    dm.consultacliente.Active := false;
+    dm.consultacliente.SQL.Text := 'SELECT * from clientes where clinome like ' + QuotedStr(edtbuscar.Text + '%');
+    dm.consultacliente.Active := true;
+end;
+
+procedure Tfrmconsultaclientes.lsconsultaclienteItemClickEx(
+  const Sender: TObject; ItemIndex: Integer; const LocalClickPos: TPointF;
+  const ItemObject: TListItemDrawable);
+begin
+dm.consultacliente.RecNo := lsconsultacliente.Selected.Index + 1;
+frmcadcliente.edtnomecliente.Text := dm.consultaclienteclinome.AsString;
+frmcadcliente.edttelefone.Text := dm.consultaclienteclifone.AsString;
+frmcadcliente.edtendereco.Text := dm.consultaclientecliendereco.AsString;
+frmcadcliente.edtcpf.ReadOnly := true;
+frmcadcliente.edtcpf.Text := dm.consultaclienteclicpf.Text;
+frmcadcliente.Show;
+end;
+
+end.

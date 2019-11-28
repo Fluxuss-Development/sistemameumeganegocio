@@ -1,0 +1,26 @@
+﻿/* Folhas de estilo para o site do livro Bootstrap do Maujor */
+/*html,body {
+	background-image: linear-gradient(to bottom,#6f8ca8,#fff);
+	background-repeat: no-repeat;
+	background-size:cover;
+	}*/ 
+.logo {
+	width: 100%;
+	padding-bottom: 8.85%;
+	background: #214d8a url(topo.jpg) center no-repeat;
+	background-size: contain;
+}
+.navegacao {margin-top: 3px;}
+.temas {
+	position: fixed;
+	bottom:0;
+	right:0;
+	text-align:right;
+}
+@media (max-width: 500px) {
+	.logo {
+		padding-bottom: 20%;
+		background: #1d1723 url(topo-mini.jpg) center no-repeat;
+		background-size: contain;
+	}
+}

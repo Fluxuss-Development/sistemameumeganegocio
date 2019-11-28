@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2019/06/20 11:36:24.000.331,=C:\Users\joao\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2019/07/27 20:29:46.000.045,C:\Users\joao\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\joao\Documents\Embarcadero\Studio\Projects\DLL\PexibirMensagem.dproj</Transaction>
+    <Transaction>2019/07/27 20:35:10.000.599,=C:\Users\joao\Desktop\TCC\MEU MEGA NEGÓCIO V2\Desktop\DLL\Unit1.pas</Transaction>
+    <Transaction>2019/07/27 20:49:53.000.525,C:\Users\joao\Desktop\TCC\MEU MEGA NEGÓCIO V2\Desktop\DLL\Umensagem.pas=C:\Users\joao\Desktop\TCC\MEU MEGA NEGÓCIO V2\Desktop\DLL\Unit1.pas</Transaction>
+    <Transaction>2019/07/27 20:49:53.000.525,C:\Users\joao\Desktop\TCC\MEU MEGA NEGÓCIO V2\Desktop\DLL\Umensagem.fmx=C:\Users\joao\Desktop\TCC\MEU MEGA NEGÓCIO V2\Desktop\DLL\Unit1.fmx</Transaction>
+    <Transaction>2019/08/25 12:17:33.000.736,=C:\Users\joao\Desktop\TCC\MEU MEGA NEGÓCIO V2\Desktop\DLL\Unit1.pas</Transaction>
+    <Transaction>2019/08/25 12:40:09.000.312,C:\Users\joao\Desktop\TCC\MEU MEGA NEGÓCIO V2\Desktop\DLL\Unit1.fmx=C:\Users\joao\Desktop\TCC\MEU MEGA NEGÓCIO V2\Desktop\DLL\Ufinalizandovenda.fmx</Transaction>
+    <Transaction>2019/08/25 12:40:09.000.309,C:\Users\joao\Desktop\TCC\MEU MEGA NEGÓCIO V2\Desktop\DLL\Unit1.pas=C:\Users\joao\Desktop\TCC\MEU MEGA NEGÓCIO V2\Desktop\DLL\Ufinalizandovenda.pas</Transaction>
+    <Transaction>2019/09/07 19:49:18.000.322,=C:\Users\Joao\Desktop\TCC\MEU MEGA NEGÓCIO V2\Desktop\DLL\SynPdf.pas</Transaction>
+    <Transaction>2019/09/07 23:27:00.000.210,=C:\Users\Joao\Desktop\TCC\MEU MEGA NEGÓCIO V2\Desktop\DLL\Unit1.pas</Transaction>
+    <Transaction>2019/09/07 23:36:36.000.153,C:\Users\Joao\Desktop\TCC\MEU MEGA NEGÓCIO V2\Desktop\DLL\Ufechacaixa.pas=C:\Users\Joao\Desktop\TCC\MEU MEGA NEGÓCIO V2\Desktop\DLL\Unit1.pas</Transaction>
+    <Transaction>2019/09/07 23:36:36.000.153,C:\Users\Joao\Desktop\TCC\MEU MEGA NEGÓCIO V2\Desktop\DLL\Ufechacaixa.fmx=C:\Users\Joao\Desktop\TCC\MEU MEGA NEGÓCIO V2\Desktop\DLL\Unit1.fmx</Transaction>
+  </Transactions>
+	<ActiveMobileDevice>
+		<NoProfile iOSSimulator="iPhone5"/>
+	</ActiveMobileDevice>
+</BorlandProject>

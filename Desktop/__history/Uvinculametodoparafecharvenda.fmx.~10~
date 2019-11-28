@@ -1,0 +1,81 @@
+object frmvinculametodopagemtnovenda: Tfrmvinculametodopagemtnovenda
+  Left = 0
+  Top = 0
+  Caption = 'frmvinculametodopagemtnovenda'
+  ClientHeight = 480
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object Layout1: TLayout
+    Align = Client
+    Size.Width = 640.000000000000000000
+    Size.Height = 480.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object Rectangle1: TRectangle
+      Align = Client
+      Fill.Color = xFF565656
+      Size.Width = 640.000000000000000000
+      Size.Height = 480.000000000000000000
+      Size.PlatformDefault = False
+      object Layout2: TLayout
+        Align = Top
+        Size.Width = 640.000000000000000000
+        Size.Height = 57.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        object Label1: TLabel
+          Align = Center
+          StyledSettings = [Family]
+          Size.Width = 269.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Selecione o m'#233'todo de pagamento desejado:'
+          TabOrder = 0
+        end
+      end
+      object lsmetodospag: TListView
+        ItemAppearanceClassName = 'TListItemAppearance'
+        ItemEditAppearanceClassName = 'TListItemShowCheckAppearance'
+        HeaderAppearanceClassName = 'TListHeaderObjects'
+        FooterAppearanceClassName = 'TListHeaderObjects'
+        Align = Client
+        Size.Width = 640.000000000000000000
+        Size.Height = 423.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        OnItemClickEx = lsmetodospagItemClickEx
+      end
+    end
+  end
+  object BindSourceDB1: TBindSourceDB
+    DataSet = dm.consultametodopag
+    ScopeMappings = <>
+    Left = 304
+    Top = 224
+  end
+  object BindingsList1: TBindingsList
+    Methods = <>
+    OutputConverters = <>
+    Left = 20
+    Top = 5
+    object LinkFillControlToField1: TLinkFillControlToField
+      Category = 'Quick Bindings'
+      Control = lsmetodospag
+      Track = True
+      FillDataSource = BindSourceDB1
+      FillDisplayFieldName = 'tiponome'
+      AutoFill = True
+      FillExpressions = <>
+      FillHeaderExpressions = <>
+      FillHeaderFieldName = 'tipoid'
+      FillBreakGroups = <>
+    end
+  end
+end

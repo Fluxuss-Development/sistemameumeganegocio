@@ -1,0 +1,180 @@
+unit Ulogin;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes,
+  System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
+  FMX.StdCtrls, FMX.Controls.Presentation, FMX.Edit, FMX.Layouts, FMX.Ani,
+  System.Notification;
+
+type
+  Tfrmlogin = class(TForm)
+    Layout1: TLayout;
+    Rectangle1: TRectangle;
+    Layout2: TLayout;
+    Layout3: TLayout;
+    edtusuario: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    edtsenha: TEdit;
+    BtnLogin: TRoundRect;
+    Label3: TLabel;
+    ScaleX: TFloatAnimation;
+    ScaleY: TFloatAnimation;
+    CentralDeNotificacaologin: TNotificationCenter;
+    Rectangle2: TRectangle;
+    timer_verifica_configura_inicial: TTimer;
+    btnsairdosistema: TRoundRect;
+    Label4: TLabel;
+    FloatAnimation1: TFloatAnimation;
+    FloatAnimation2: TFloatAnimation;
+    procedure BtnLoginClick(Sender: TObject);
+    procedure edtusuarioKeyDown(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
+    procedure edtsenhaKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
+      Shift: TShiftState);
+    procedure FormActivate(Sender: TObject);
+    procedure timer_verifica_configura_inicialTimer(Sender: TObject);
+    procedure btnsairdosistemaClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    nome_do_usuario_logado_para_proteger_integridade_do_sistema : string;
+    id_do_usuario_logado : string;
+  end;
+
+var
+  frmlogin: Tfrmlogin;
+
+implementation
+
+{$R *.fmx}
+
+uses Umenu, Umodulo, Uconfiguracaoinicialsistema;
+
+//mensagem custom versão para tcc v1.9.2 -> 27/07/2019
+//DLL DAS MENSAGENS CUSTOMIZADAS
+function mostraMensagem(Msg1, Msg2, btn1: string): integer; stdcall;
+  external 'PexibirMensagem.dll' name 'mostraMensagem';
+//FIM DO DLL
+
+procedure Tfrmlogin.BtnLoginClick(Sender: TObject);
+var
+  notificacao: TNotification;
+begin
+  try
+    // tenta logar
+    if (edtusuario.Text.Equals('') or edtsenha.Text.Equals('')) then
+    begin
+      //ShowMessage('Os campos de dados de acesso estão vazios !');
+      mostraMensagem('Campos Vazios', 'Provavelmente você esqueceu algum campo vazio, preencha e tente novamente !', 'Ok, irei preenche-los');
+    end
+    else
+    begin
+      dm.qlogin.Active := False;
+      dm.qlogin.SQL.Text := 'SELECT * FROM empresario WHERE empativo = 1 and empnome = ' +
+        QuotedStr(edtusuario.Text) + ' and empsenha = md5(' +
+        QuotedStr(edtsenha.Text) + ')';
+      dm.qlogin.Active := true;
+      if (dm.qlogin.RecordCount = 1) then
+      begin
+        frmmenu.empresarioid := dm.qloginempcod.AsInteger;// código do empresário ou funcionário
+        frmmenu.cargodofuncouempr := dm.qloginempfuncionario.AsBoolean;   // função do empresário ou funcionário
+        nome_do_usuario_logado_para_proteger_integridade_do_sistema := dm.qloginempnome.Text;
+        id_do_usuario_logado := dm.qloginempcod.text;
+        // abre o forme do menu e fecha esse
+        //-------fullscreen mode adicionado versão do dia 27-07-2019
+        frmmenu.FullScreen := True;
+        frmmenu.Show;
+        frmlogin.Hide;
+
+        // Caso o login do usuário tenha dado certo
+        notificacao := CentralDeNotificacaologin.CreateNotification;
+        try
+          notificacao.Name := 'Meu mega Negócio';
+          notificacao.Title := 'Login do Usuário: ' + dm.qloginempnome.AsString;
+          notificacao.AlertBody :=
+            'O Usuário foi logado com sucesso | Bom Trabalho !';
+          CentralDeNotificacaologin.ScheduleNotification(notificacao);
+          CentralDeNotificacaologin.PresentNotification(notificacao);
+        finally
+          notificacao.Free;
+        end;
+      end
+      else
+      begin
+       // ShowMessage('Não foi encontrado um usuário com seus dados de acesso !');
+        mostraMensagem('Não foi encontrado um usuário com seus dados de acesso !', 'Login inválido', 'Ok');
+      end;
+    end;
+  except
+      mostraMensagem('Ocorreu um erro de comunicação entre você e o seu banco de dados !', 'Não foi possível conectar ao banco de dados', 'Ok');
+   end;
+end;
+
+procedure Tfrmlogin.btnsairdosistemaClick(Sender: TObject);
+begin
+Application.Terminate;
+end;
+
+procedure Tfrmlogin.edtsenhaKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+//DEIXA TUDO MAIÚSCULO NA EDIT
+keychar := UpCase(KeyChar);
+end;
+
+procedure Tfrmlogin.edtusuarioKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+//DEIXA TUDO MAIÚSCULO NA EDIT
+keychar := UpCase(KeyChar);
+end;
+
+//AQUI ELE INICIA O BANCO DE DADOS LOCAL PARA ARMAZENAR DADOS SOMENTE DE UM COMPUTADOR !
+procedure Tfrmlogin.FormActivate(Sender: TObject);
+var
+  localdobanco: string;
+begin
+try
+      dm.dbsqlite_meumeganegocio.Connected := false;
+      localdobanco := GetCurrentDir + './meumegadblite.db';
+      dm.dbsqlite_meumeganegocio.Params.Database := localdobanco;
+      dm.dbsqlite_meumeganegocio.Connected := true;
+except
+      //ShowMessage('Não foi possível trazer seus dados do banco local !');
+      mostraMensagem('Não foi possível trazer seus dados do banco local !', 'Não foi possível trazer seus dados do banco local !', 'OK');
+end;
+try
+   dm.meumeganegocio.Connected := false;
+   dm.meumeganegocio.Connected := true;
+except
+    mostraMensagem('Não foi possível conectar com o banco remoto !', 'Não foi possível conectar com o banco remoto !', 'OK');
+    Application.Terminate;
+end;
+end;
+
+procedure Tfrmlogin.timer_verifica_configura_inicialTimer(Sender: TObject);
+begin
+//verifica se existe algum empresario registrado senão ele abre a tela de cadastro
+//e boas vindas ao sistema ! adicionado em 23/10/2019
+dm.qlogin.Active := false;
+dm.qlogin.SQL.Text := 'select * from empresario';
+dm.qlogin.Active := true;
+if(dm.qlogin.RecordCount >= 1) then
+begin
+   //pass porque se tiver registro ta tudo certo !
+   //desativa o timer porque ja verificou e viu que tem registro de empresario
+   timer_verifica_configura_inicial.Enabled := false;
+end
+else
+begin
+   timer_verifica_configura_inicial.Enabled := false;
+   frmconfiguracoesiniciais.ShowModal;
+end;
+end;
+
+end.

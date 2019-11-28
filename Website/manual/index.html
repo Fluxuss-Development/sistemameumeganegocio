@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+    <title>PDF Viewer</title>
+  </head>
+  <style>
+	html, body {
+    padding: 0; margin: 0;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	background-color: gray;
+	}
+	canvas {
+    border: 1px solid #f00;
+	 width: 100%;
+	height: auto;
+	}
+  </style>
+  <body>
+  <div class="row">
+    <div class="top-bar com-md-12">
+      <button class="btn" id="prev-page">
+        <i class="fas fa-arrow-circle-left"></i> Página anterior
+      </button>
+      <button class="btn" id="next-page">
+        Próxima Pagina <i class="fas fa-arrow-circle-right"></i>
+      </button>
+      <br><span class="page-info">
+        Pagina <span id="page-num"></span> de <span id="page-count"></span>
+    </div>
+	<div class="col-md-12">
+    <canvas id="pdf-render"></canvas>
+	<div>
+    <script src="js/pdf.js"></script>
+    <script src="js/main.js"></script>
+		</div
+  </body>
+</html>

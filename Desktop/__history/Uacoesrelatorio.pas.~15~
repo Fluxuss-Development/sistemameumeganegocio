@@ -1,0 +1,98 @@
+unit Uacoesrelatorio;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.Layouts;
+
+type
+  Tfrmacoesrelatorio = class(TForm)
+    Layout1: TLayout;
+    Rectangle1: TRectangle;
+    Layout2: TLayout;
+    btnabrirrelatorio: TRoundRect;
+    Label1: TLabel;
+    btnexcluirrelatorio: TRoundRect;
+    Label2: TLabel;
+    lblrelatorionome: TLabel;
+    procedure btnexcluirrelatorioClick(Sender: TObject);
+    procedure btnabrirrelatorioClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    relatorioid : integer;
+    relatorionome, relatoriodir : string;
+  end;
+
+var
+  frmacoesrelatorio: Tfrmacoesrelatorio;
+
+implementation
+
+{$R *.fmx}
+
+uses Umodulo, Ucarregapdf;
+
+//DLL DAS MENSAGENS CUSTOMIZADAS
+function mostraMensagem(Msg1, Msg2, btn1: string): integer; stdcall;
+  external 'PexibirMensagem.dll' name 'mostraMensagem';
+//FIM DO DLL
+
+procedure Tfrmacoesrelatorio.btnabrirrelatorioClick(Sender: TObject);
+begin
+     //abre
+     frmcarregapdf.carrega.URL := 'file://' + GetCurrentDir + relatoriodir;
+     frmcarregapdf.carrega.Navigate;
+     frmcarregapdf.ShowModal;
+end;
+
+procedure Tfrmacoesrelatorio.btnexcluirrelatorioClick(Sender: TObject);
+var
+   opcaoparaxecluirs: integer;
+begin
+  MessageDlg('Você tem certeza que deseja excluir esse relatório ?', System.UITypes.TMsgDlgType.mtInformation,
+    [
+      System.UITypes.TMsgDlgBtn.mbYes,
+      System.UITypes.TMsgDlgBtn.mbNo
+    ], 0,
+    procedure(const AResult: System.UITypes.TModalResult)
+    begin
+      case AResult of
+        mrYES:
+          opcaoparaxecluirs := 1;
+        mrNo:
+          opcaoparaxecluirs := 10;
+      end;
+    end);
+    if(opcaoparaxecluirs = 1) then
+    begin
+        ShowMessage('Seu relatório sera excluido do banco local, mais não do seu computador !');
+        dm.excluirrelatorio.Params.ParamByName('relatorioid').Value := relatorioid;
+        dm.excluirrelatorio.Prepare;
+        dm.excluirrelatorio.ExecSQL;
+        ShowMessage('Excluido !');
+    end
+    else
+    begin
+
+    end;
+end;
+
+procedure Tfrmacoesrelatorio.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+      dm.consultarelatorio.Close;
+      dm.consultarelatorio.Open;
+end;
+
+procedure Tfrmacoesrelatorio.FormShow(Sender: TObject);
+begin
+lblrelatorionome.Text := relatorionome;
+end;
+
+end.

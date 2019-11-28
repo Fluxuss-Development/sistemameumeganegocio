@@ -1,0 +1,245 @@
+unit Ugerarrelatorio;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.Layouts, Winapi.Windows, Winapi.ShellAPI, Vcl.Graphics, Vcl.Imaging.jpeg, FireDAC.Stan.Param;
+
+type
+  Tfrmgerarrelatorio = class(TForm)
+    Layout1: TLayout;
+    Rectangle1: TRectangle;
+    Layout2: TLayout;
+    btnrelatoriomensal: TRoundRect;
+    Label1: TLabel;
+    btnrelatorioanual: TRoundRect;
+    Label2: TLabel;
+    procedure btnrelatoriomensalClick(Sender: TObject);
+    procedure btnrelatorioanualClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmgerarrelatorio: Tfrmgerarrelatorio;
+
+implementation
+
+{$R *.fmx}
+
+uses SynPdf, Ulogin, Umodulo, Ucarregapdf;
+
+procedure Tfrmgerarrelatorio.btnrelatoriomensalClick(Sender: TObject);
+var
+PDF : TPdfDocumentGDI;
+Page : TPdfPage;
+i : integer;
+nomerelatorio : integer;
+cor : TColor;
+pdf_abrir : string;
+Bmp : TBitmap;
+soma : real;
+begin
+   //synpdf tutorial
+   //https://www.youtube.com/watch?v=hD6e6iGvBYE   <- muito bom
+   //https://www.youtube.com/watch?v=IJSVD-x9mpM   <- muito bom
+   PDF := TPdfDocumentGDI.Create();
+   Bmp := TBitmap.Create;
+   Try
+     PDF.Info.Author := 'Meu mega negócio';
+     PDF.Info.CreationDate := Now;
+     PDF.info.Creator := 'Meu mega Negócio';
+     PDF.Info.Title := 'Relatório de lucro mensal !';
+     //----------------------
+
+
+
+     Page := PDF.AddPage;
+     Page.PageLandscape := false;
+     pdf.DefaultPaperSize := psA4;
+
+     //tenta inserir um logo caso não de ele simplesmente cria o pdf sem o logo
+     try
+     Bmp.LoadFromFile('./relatorios/logos/logotiporelatorios.bmp');
+     PDF.VCLCanvas.Draw(100,800, Bmp);
+     except
+
+     end;
+
+     pdf.VCLCanvas.Font.Size := 12;
+     pdf.VCLCanvas.Font.Name := 'Arial';
+     cor := $0000FF; //vermelho
+     PDF.VCLCanvas.Font.Color := cor;
+     pdf.VCLCanvas.Font.Size := 16;
+     PDF.VCLCanvas.TextOut(100, 80, '__________________________________________________________________');
+     PDF.VCLCanvas.TextOut(100, 110, '                     Informações do relatório:                   ');
+     PDF.VCLCanvas.TextOut(100, 140, '__________________________________________________________________');
+     cor := $000000; //preto
+     PDF.VCLCanvas.Font.Color := cor;
+     pdf.VCLCanvas.Font.Size := 12;
+     pdf.VCLCanvas.TextOut(100, 170,'Este relatório foi gerado automáticamente usando o software Meu Mega Negócio !');
+     pdf.VCLCanvas.TextOut(100, 200,'Seu relatório é gerado através de nosso poderoso sistema de análise.');
+     pdf.VCLCanvas.TextOut(100, 230,'Gerado em:');
+     pdf.VCLCanvas.TextOut(100, 260, FormatDateTime('dd/mm/yyyy - hh:nn:ss', Now));
+     pdf.VCLCanvas.TextOut(100, 290, 'Pelo Utilizador: ' + frmlogin.nome_do_usuario_logado_para_proteger_integridade_do_sistema);
+     pdf.VCLCanvas.TextOut(100, 320, 'Este relatório é composto por todas as vendas do mês !');
+     pdf.VCLCanvas.TextOut(100, 350, 'Vale como arquivo de lucros !');
+     cor := $0000FF; //vermelho
+     PDF.VCLCanvas.Font.Color := cor;
+     pdf.VCLCanvas.Font.Size := 16;
+     PDF.VCLCanvas.TextOut(100, 380, '__________________________________________________________________');
+     PDF.VCLCanvas.TextOut(100, 410, '                       Relatório de lucro:                        ');
+     PDF.VCLCanvas.TextOut(100, 440, '__________________________________________________________________');
+     cor := $000000; //preto
+     PDF.VCLCanvas.Font.Color := cor;
+     pdf.VCLCanvas.Font.Size := 11;
+
+     dm.consultaparaanalytics.Close;
+     dm.consultaparaanalytics.SQL.Text := 'SELECT * FROM vendas where ventotal > 0 and MONTH(vendataven) = MONTH(" ' + FormatDateTime('yyyy-mm-dd-', date) + '")';
+     dm.consultaparaanalytics.Open;
+     dm.consultaparaanalytics.First;
+
+     i := 0;
+     soma := 0;
+     while not dm.consultaparaanalytics.Eof do
+     begin
+       soma := soma +  dm.consultaparaanalytics.FieldByName('ventotal').AsFloat;
+       dm.consultaparaanalytics.Next;
+     end;
+
+     PDF.VCLCanvas.TextOut(100, 480, 'Total em lucro de vendas para este mês: R$' + FloatToStr(soma));
+
+     //salva o diretorio do relatório
+     nomerelatorio  := 1 + Random(10000);
+     pdf_abrir := './relatorios/relatoriosgerais' + IntToStr(nomerelatorio) + '.pdf';
+
+     //salva no banco local
+     dm.insererelatorio.Params.ParamByName('relatorionome').Value := nomerelatorio;
+     dm.insererelatorio.Params.ParamByName('relatoriodir').Value := pdf_abrir;
+     dm.insererelatorio.Params.ParamByName('relatoriotipo') .Value := 'Relatório de vendas Mensal.';
+     dm.insererelatorio.Prepare;
+     dm.insererelatorio.ExecSQL;
+
+     //abre
+     pdf_abrir := './relatorios/relatoriosgerais' + IntToStr(nomerelatorio) + '.pdf';
+     pdf.SaveToFile(pdf_abrir);
+     frmcarregapdf.carrega.URL := 'file://' + GetCurrentDir + pdf_abrir;
+     frmcarregapdf.carrega.Navigate;
+     frmcarregapdf.ShowModal;
+   Finally
+   bmp.free;
+   PDF.Free;
+   ShowMessage('Cupom gerado com sucesso, escolha um programa para abri-lo');
+   end;
+
+end;
+
+procedure Tfrmgerarrelatorio.btnrelatorioanualClick(Sender: TObject);
+var
+PDF : TPdfDocumentGDI;
+Page : TPdfPage;
+i : integer;
+nomerelatorio : integer;
+cor : TColor;
+pdf_abrir : string;
+Bmp : TBitmap;
+soma : real;
+begin
+   //synpdf tutorial
+   //https://www.youtube.com/watch?v=hD6e6iGvBYE   <- muito bom
+   //https://www.youtube.com/watch?v=IJSVD-x9mpM   <- muito bom
+   PDF := TPdfDocumentGDI.Create();
+   Bmp := TBitmap.Create;
+   Try
+     PDF.Info.Author := 'Meu mega negócio';
+     PDF.Info.CreationDate := Now;
+     PDF.info.Creator := 'Meu mega Negócio';
+     PDF.Info.Title := 'Relatório de lucro anual !';
+     //----------------------
+
+
+
+     Page := PDF.AddPage;
+     Page.PageLandscape := false;
+     pdf.DefaultPaperSize := psA4;
+
+     //tenta inserir um logo caso não de ele simplesmente cria o pdf sem o logo
+     try
+     Bmp.LoadFromFile('./relatorios/logos/logotiporelatorios.bmp');
+     PDF.VCLCanvas.Draw(100,800, Bmp);
+     except
+
+     end;
+
+     pdf.VCLCanvas.Font.Size := 12;
+     pdf.VCLCanvas.Font.Name := 'Arial';
+     cor := $0000FF; //vermelho
+     PDF.VCLCanvas.Font.Color := cor;
+     pdf.VCLCanvas.Font.Size := 16;
+     PDF.VCLCanvas.TextOut(100, 80, '__________________________________________________________________');
+     PDF.VCLCanvas.TextOut(100, 110, '                     Informações do relatório:                   ');
+     PDF.VCLCanvas.TextOut(100, 140, '__________________________________________________________________');
+     cor := $000000; //preto
+     PDF.VCLCanvas.Font.Color := cor;
+     pdf.VCLCanvas.Font.Size := 12;
+     pdf.VCLCanvas.TextOut(100, 170,'Este relatório foi gerado automáticamente usando o software Meu Mega Negócio !');
+     pdf.VCLCanvas.TextOut(100, 200,'Seu relatório é gerado através de nosso poderoso sistema de análise.');
+     pdf.VCLCanvas.TextOut(100, 230,'Gerado em:');
+     pdf.VCLCanvas.TextOut(100, 260, FormatDateTime('dd/mm/yyyy - hh:nn:ss', Now));
+     pdf.VCLCanvas.TextOut(100, 290, 'Pelo Utilizador: ' + frmlogin.nome_do_usuario_logado_para_proteger_integridade_do_sistema);
+     pdf.VCLCanvas.TextOut(100, 320, 'Este relatório é composto por todas as vendas do ano !');
+     pdf.VCLCanvas.TextOut(100, 350, 'Vale como arquivo de lucros !');
+     cor := $0000FF; //vermelho
+     PDF.VCLCanvas.Font.Color := cor;
+     pdf.VCLCanvas.Font.Size := 16;
+     PDF.VCLCanvas.TextOut(100, 380, '__________________________________________________________________');
+     PDF.VCLCanvas.TextOut(100, 410, '                       Relatório de lucro:                        ');
+     PDF.VCLCanvas.TextOut(100, 440, '__________________________________________________________________');
+     cor := $000000; //preto
+     PDF.VCLCanvas.Font.Color := cor;
+     pdf.VCLCanvas.Font.Size := 11;
+
+     dm.consultaparaanalytics.Close;
+     dm.consultaparaanalytics.SQL.Text := 'SELECT * FROM vendas where ventotal > 0 and YEAR(vendataven) = YEAR(" ' + FormatDateTime('yyyy-mm-dd-', date) + '")';
+     dm.consultaparaanalytics.Open;
+     dm.consultaparaanalytics.First;
+
+     i := 0;
+     soma := 0;
+     while not dm.consultaparaanalytics.Eof do
+     begin
+       soma := soma +  dm.consultaparaanalytics.FieldByName('ventotal').AsFloat;
+       dm.consultaparaanalytics.Next;
+     end;
+
+     PDF.VCLCanvas.TextOut(100, 480, 'Total em lucro de vendas para este ano: R$' + FloatToStr(soma));
+
+     //salva o diretorio do relatório
+     nomerelatorio  := 1 + Random(10000);
+     pdf_abrir := './relatorios/relatoriosgerais' + IntToStr(nomerelatorio) + '.pdf';
+
+     //salva no banco local
+     dm.insererelatorio.Params.ParamByName('relatorionome').Value := nomerelatorio;
+     dm.insererelatorio.Params.ParamByName('relatoriodir').Value := pdf_abrir;
+     dm.insererelatorio.Params.ParamByName('relatoriotipo') .Value := 'Relatório de vendas Anual.';
+     dm.insererelatorio.Prepare;
+     dm.insererelatorio.ExecSQL;
+
+     //abre
+     pdf_abrir := './relatorios/relatoriosgerais' + IntToStr(nomerelatorio) + '.pdf';
+     pdf.SaveToFile(pdf_abrir);
+     frmcarregapdf.carrega.URL := 'file://' + GetCurrentDir + pdf_abrir;
+     frmcarregapdf.carrega.Navigate;
+     frmcarregapdf.ShowModal;
+   Finally
+   bmp.free;
+   PDF.Free;
+   ShowMessage('Cupom gerado com sucesso, escolha um programa para abri-lo');
+   end;
+end;
+
+end.

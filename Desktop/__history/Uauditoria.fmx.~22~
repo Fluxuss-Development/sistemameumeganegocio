@@ -1,0 +1,166 @@
+object frmauditoria: Tfrmauditoria
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = Single
+  Caption = 'Auditoria do Software'
+  ClientHeight = 621
+  ClientWidth = 746
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object Rectangle1: TRectangle
+    Align = Client
+    Fill.Color = xFF393939
+    Size.Width = 746.000000000000000000
+    Size.Height = 621.000000000000000000
+    Size.PlatformDefault = False
+  end
+  object Layout1: TLayout
+    Align = Center
+    Size.Width = 459.000000000000000000
+    Size.Height = 557.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object lblinfo: TLabel
+      Align = Top
+      StyledSettings = [Family, Size, Style]
+      Size.Width = 459.000000000000000000
+      Size.Height = 57.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.FontColor = claWhite
+      Text = 'Aqui label com nome do caro logado e uma info'
+      TabOrder = 0
+    end
+    object btnlogalteracoes: TRoundRect
+      Align = Top
+      Fill.Color = claCrimson
+      Margins.Left = 50.000000000000000000
+      Margins.Top = 20.000000000000000000
+      Margins.Right = 50.000000000000000000
+      Margins.Bottom = 20.000000000000000000
+      Position.X = 50.000000000000000000
+      Position.Y = 77.000000000000000000
+      Size.Width = 359.000000000000000000
+      Size.Height = 50.000000000000000000
+      Size.PlatformDefault = False
+      OnClick = btnlogalteracoesClick
+      object Label1: TLabel
+        Align = Center
+        StyledSettings = [Family, Style]
+        Size.Width = 279.000000000000000000
+        Size.Height = 33.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Size = 16.000000000000000000
+        TextSettings.FontColor = claWhite
+        TextSettings.HorzAlign = Center
+        Text = 'Visualizar log de altera'#231#245'es'
+        TabOrder = 0
+      end
+    end
+    object btnativaoudesativaproduto: TRoundRect
+      Align = Top
+      Fill.Color = claCrimson
+      Margins.Left = 50.000000000000000000
+      Margins.Top = 20.000000000000000000
+      Margins.Right = 50.000000000000000000
+      Margins.Bottom = 20.000000000000000000
+      Position.X = 50.000000000000000000
+      Position.Y = 167.000000000000000000
+      Size.Width = 359.000000000000000000
+      Size.Height = 50.000000000000000000
+      Size.PlatformDefault = False
+      OnClick = btnativaoudesativaprodutoClick
+      object Label2: TLabel
+        Align = Center
+        StyledSettings = [Family, Style]
+        Size.Width = 266.000000000000000000
+        Size.Height = 25.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Size = 16.000000000000000000
+        TextSettings.FontColor = claWhite
+        TextSettings.HorzAlign = Center
+        Text = 'Desativar ou Ativar um Produto'
+        TabOrder = 0
+      end
+    end
+    object RoundRect1: TRoundRect
+      Align = Top
+      Fill.Color = claCrimson
+      Margins.Left = 50.000000000000000000
+      Margins.Top = 20.000000000000000000
+      Margins.Right = 50.000000000000000000
+      Margins.Bottom = 20.000000000000000000
+      Position.X = 50.000000000000000000
+      Position.Y = 257.000000000000000000
+      Size.Width = 359.000000000000000000
+      Size.Height = 50.000000000000000000
+      Size.PlatformDefault = False
+      OnClick = RoundRect1Click
+      object Label3: TLabel
+        Align = Center
+        StyledSettings = [Family, Style]
+        Size.Width = 267.000000000000000000
+        Size.Height = 33.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Size = 16.000000000000000000
+        TextSettings.FontColor = claWhite
+        TextSettings.HorzAlign = Center
+        Text = 'Desativar ou Ativar uma Categoria'
+        TabOrder = 0
+      end
+    end
+    object RoundRect2: TRoundRect
+      Align = Top
+      Fill.Color = claCrimson
+      Margins.Left = 50.000000000000000000
+      Margins.Top = 20.000000000000000000
+      Margins.Right = 50.000000000000000000
+      Margins.Bottom = 20.000000000000000000
+      Position.X = 50.000000000000000000
+      Position.Y = 347.000000000000000000
+      Size.Width = 359.000000000000000000
+      Size.Height = 50.000000000000000000
+      Size.PlatformDefault = False
+      OnClick = RoundRect2Click
+      object Label4: TLabel
+        Align = Center
+        StyledSettings = [Family, Style]
+        Size.Width = 282.000000000000000000
+        Size.Height = 33.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Size = 16.000000000000000000
+        TextSettings.FontColor = claWhite
+        Text = 'Desativar ou Ativar uma Subcategoria'
+        TabOrder = 0
+      end
+    end
+    object RoundRect3: TRoundRect
+      Align = Top
+      Fill.Color = claCrimson
+      Margins.Left = 50.000000000000000000
+      Margins.Top = 20.000000000000000000
+      Margins.Right = 50.000000000000000000
+      Margins.Bottom = 20.000000000000000000
+      Position.X = 50.000000000000000000
+      Position.Y = 437.000000000000000000
+      Size.Width = 359.000000000000000000
+      Size.Height = 50.000000000000000000
+      Size.PlatformDefault = False
+      object Label5: TLabel
+        Align = Center
+        StyledSettings = [Family, Style]
+        Size.Width = 266.000000000000000000
+        Size.Height = 33.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Size = 16.000000000000000000
+        TextSettings.FontColor = claWhite
+        TextSettings.HorzAlign = Center
+        Text = 'Desativar ou Ativar um Usu'#225'rio !'
+        TabOrder = 0
+      end
+    end
+  end
+end

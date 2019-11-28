@@ -1,0 +1,255 @@
+object frmcadfornecedor: Tfrmcadfornecedor
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = Single
+  Caption = 'Fornecedor'
+  ClientHeight = 505
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object Layout1: TLayout
+    Align = Client
+    Size.Width = 640.000000000000000000
+    Size.Height = 505.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object Rectangle1: TRectangle
+      Align = Client
+      Fill.Color = xFF474646
+      Size.Width = 640.000000000000000000
+      Size.Height = 505.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Layout2: TLayout
+      Align = Center
+      Size.Width = 339.000000000000000000
+      Size.Height = 489.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      object Label1: TLabel
+        Align = Top
+        StyledSettings = [Family, Size, Style]
+        Margins.Left = 10.000000000000000000
+        Margins.Top = 10.000000000000000000
+        Margins.Right = 10.000000000000000000
+        Margins.Bottom = 5.000000000000000000
+        Position.X = 10.000000000000000000
+        Position.Y = 10.000000000000000000
+        Size.Width = 319.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.FontColor = claWhite
+        TextSettings.HorzAlign = Center
+        Text = 'Nome do fornecedor:'
+        TabOrder = 4
+      end
+      object edtnomefor: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Align = Top
+        TabOrder = 9
+        MaxLength = 100
+        Position.X = 10.000000000000000000
+        Position.Y = 42.000000000000000000
+        Margins.Left = 10.000000000000000000
+        Margins.Top = 10.000000000000000000
+        Margins.Right = 10.000000000000000000
+        Margins.Bottom = 5.000000000000000000
+        Size.Width = 319.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'Exemplo: Raimundo doces e bebidas'
+        OnKeyDown = edtnomeforKeyDown
+      end
+      object edtendfor: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Align = Top
+        TabOrder = 8
+        MaxLength = 200
+        Position.X = 10.000000000000000000
+        Position.Y = 111.000000000000000000
+        Margins.Left = 10.000000000000000000
+        Margins.Top = 10.000000000000000000
+        Margins.Right = 10.000000000000000000
+        Margins.Bottom = 5.000000000000000000
+        Size.Width = 319.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'Exemplo: Rua do piraju - centro N'#186' 12 - Piraju -SP'
+        OnKeyDown = edtendforKeyDown
+      end
+      object Label2: TLabel
+        Align = Top
+        StyledSettings = [Family, Size, Style]
+        Margins.Left = 10.000000000000000000
+        Margins.Top = 10.000000000000000000
+        Margins.Right = 10.000000000000000000
+        Margins.Bottom = 5.000000000000000000
+        Position.X = 10.000000000000000000
+        Position.Y = 79.000000000000000000
+        Size.Width = 319.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.FontColor = claWhite
+        TextSettings.HorzAlign = Center
+        Text = 'Endere'#231'o do fornecedor:'
+        TabOrder = 3
+      end
+      object edttelefonefor: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Align = Top
+        TabOrder = 7
+        MaxLength = 50
+        Position.X = 10.000000000000000000
+        Position.Y = 180.000000000000000000
+        Margins.Left = 10.000000000000000000
+        Margins.Top = 10.000000000000000000
+        Margins.Right = 10.000000000000000000
+        Margins.Bottom = 5.000000000000000000
+        Size.Width = 319.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'Exemplo: 1433221166'
+        OnKeyDown = edttelefoneforKeyDown
+      end
+      object Label3: TLabel
+        Align = Top
+        StyledSettings = [Family, Size, Style]
+        Margins.Left = 10.000000000000000000
+        Margins.Top = 10.000000000000000000
+        Margins.Right = 10.000000000000000000
+        Margins.Bottom = 5.000000000000000000
+        Position.X = 10.000000000000000000
+        Position.Y = 148.000000000000000000
+        Size.Width = 319.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.FontColor = claWhite
+        TextSettings.HorzAlign = Center
+        Text = 'Telefone do fornecedor:'
+        TabOrder = 2
+      end
+      object edtcelular: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Align = Top
+        TabOrder = 6
+        MaxLength = 50
+        Position.X = 10.000000000000000000
+        Position.Y = 249.000000000000000000
+        Margins.Left = 10.000000000000000000
+        Margins.Top = 10.000000000000000000
+        Margins.Right = 10.000000000000000000
+        Margins.Bottom = 5.000000000000000000
+        Size.Width = 319.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'Exemplo: 1499855222'
+        OnKeyDown = edtcelularKeyDown
+      end
+      object Label4: TLabel
+        Align = Top
+        StyledSettings = [Family, Size, Style]
+        Margins.Left = 10.000000000000000000
+        Margins.Top = 10.000000000000000000
+        Margins.Right = 10.000000000000000000
+        Margins.Bottom = 5.000000000000000000
+        Position.X = 10.000000000000000000
+        Position.Y = 217.000000000000000000
+        Size.Width = 319.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.FontColor = claWhite
+        TextSettings.HorzAlign = Center
+        Text = 'Celular do fornecedor:'
+        TabOrder = 1
+      end
+      object edtcomentariosfor: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Align = Top
+        TabOrder = 5
+        MaxLength = 200
+        Position.X = 10.000000000000000000
+        Position.Y = 318.000000000000000000
+        Margins.Left = 10.000000000000000000
+        Margins.Top = 10.000000000000000000
+        Margins.Right = 10.000000000000000000
+        Margins.Bottom = 5.000000000000000000
+        Size.Width = 319.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'Exemplo: Fornecedor de produtos industriais'
+        OnKeyDown = edtcomentariosforKeyDown
+      end
+      object Label5: TLabel
+        Align = Top
+        StyledSettings = [Family, Size, Style]
+        Margins.Left = 10.000000000000000000
+        Margins.Top = 10.000000000000000000
+        Margins.Right = 10.000000000000000000
+        Margins.Bottom = 5.000000000000000000
+        Position.X = 10.000000000000000000
+        Position.Y = 286.000000000000000000
+        Size.Width = 319.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.FontColor = claWhite
+        TextSettings.HorzAlign = Center
+        Text = 'Comentarios para este fornecedor:'
+        TabOrder = 0
+      end
+      object btncadastrar: TRoundRect
+        Align = Top
+        Fill.Color = claCrimson
+        Margins.Left = 10.000000000000000000
+        Margins.Top = 10.000000000000000000
+        Margins.Right = 10.000000000000000000
+        Margins.Bottom = 10.000000000000000000
+        Position.X = 10.000000000000000000
+        Position.Y = 355.000000000000000000
+        Size.Width = 319.000000000000000000
+        Size.Height = 50.000000000000000000
+        Size.PlatformDefault = False
+        Visible = False
+        OnClick = btncadastrarClick
+        object Label6: TLabel
+          Align = Center
+          StyledSettings = [Family, Size, Style]
+          Size.Width = 204.000000000000000000
+          Size.Height = 41.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Cadastrar fornecedor'
+          TabOrder = 0
+        end
+      end
+      object btnalterar: TRoundRect
+        Align = Top
+        Fill.Color = claCrimson
+        Margins.Left = 10.000000000000000000
+        Margins.Top = 10.000000000000000000
+        Margins.Right = 10.000000000000000000
+        Margins.Bottom = 10.000000000000000000
+        Position.X = 10.000000000000000000
+        Position.Y = 425.000000000000000000
+        Size.Width = 319.000000000000000000
+        Size.Height = 50.000000000000000000
+        Size.PlatformDefault = False
+        Visible = False
+        object Label7: TLabel
+          Align = Center
+          StyledSettings = [Family, Size, Style]
+          Size.Width = 204.000000000000000000
+          Size.Height = 41.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Alterar Fornecedor'
+          TabOrder = 0
+        end
+      end
+    end
+  end
+end

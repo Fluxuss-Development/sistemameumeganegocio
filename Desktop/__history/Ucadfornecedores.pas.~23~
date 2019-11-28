@@ -1,0 +1,144 @@
+unit Ucadfornecedores;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Edit,
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.Layouts;
+
+type
+  Tfrmcadfornecedor = class(TForm)
+    Layout1: TLayout;
+    Rectangle1: TRectangle;
+    Layout2: TLayout;
+    Label1: TLabel;
+    edtnomefor: TEdit;
+    edtendfor: TEdit;
+    Label2: TLabel;
+    edttelefonefor: TEdit;
+    Label3: TLabel;
+    edtcelular: TEdit;
+    Label4: TLabel;
+    edtcomentariosfor: TEdit;
+    Label5: TLabel;
+    btncadastrar: TRoundRect;
+    Label6: TLabel;
+    btnalterar: TRoundRect;
+    Label7: TLabel;
+    procedure edtnomeforKeyDown(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
+    procedure edtendforKeyDown(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
+    procedure edttelefoneforKeyDown(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
+    procedure edtcelularKeyDown(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
+    procedure edtcomentariosforKeyDown(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
+    procedure btncadastrarClick(Sender: TObject);
+    procedure btnalterarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    codigo_do_fornecedor_para_alteracao : integer;
+  end;
+
+var
+  frmcadfornecedor: Tfrmcadfornecedor;
+
+implementation
+
+{$R *.fmx}
+
+uses Umodulo;
+
+procedure Tfrmcadfornecedor.btnalterarClick(Sender: TObject);
+begin
+if((edtnomefor.Text = '') or (edtendfor.Text = '') or (edttelefonefor.Text = '') or (edtcelular.Text = '') or (edtcomentariosfor.Text = '')) then
+begin
+  ShowMessage('Campos em branco, certifique-se de preenchar todos os campos !');
+  abort;
+end;
+
+  dm.alterafornecedor.Params.ParamByName('fornome').Value  := edtnomefor.Text;
+  dm.alterafornecedor.Params.ParamByName('forendereco').Value := edtendfor.Text;
+  dm.alterafornecedor.Params.ParamByName('fortelefone').Value  := edttelefonefor.Text;
+  dm.alterafornecedor.Params.ParamByName('forcelular').Value := edtcelular.Text;
+  dm.alterafornecedor.Params.ParamByName('forcomentarios').Value := edtcomentariosfor.Text;
+  dm.alterafornecedor.Params.ParamByName('forcod').Value := codigo_do_fornecedor_para_alteracao;
+  dm.alterafornecedor.Prepare;
+  dm.alterafornecedor.ExecSQL;
+  ShowMessage('Fornecedor alterado com sucesso !');
+
+end;
+
+procedure Tfrmcadfornecedor.btncadastrarClick(Sender: TObject);
+begin
+if((edtnomefor.Text = '') or (edtendfor.Text = '') or (edttelefonefor.Text = '') or (edtcelular.Text = '') or (edtcomentariosfor.Text = '')) then
+begin
+  ShowMessage('Campos em branco, certifique-se de preenchar todos os campos !');
+  abort;
+end;
+
+  //insere os dados na tabela
+  dm.inserefornecedor.Params.ParamByName('fornome').Value := edtnomefor.Text;
+  dm.inserefornecedor.Params.ParamByName('forendereco').Value := edtendfor.Text;
+  dm.inserefornecedor.Params.ParamByName('fortelefone').Value := edttelefonefor.Text;
+  dm.inserefornecedor.Params.ParamByName('forcelular').Value := edtcelular.Text;
+  dm.inserefornecedor.Params.ParamByName('forcomentarios').Value := edtcomentariosfor.Text;
+  dm.inserefornecedor.Prepare;
+  dm.inserefornecedor.ExecSQL;
+  if(dm.inserefornecedor.RowsAffected = 1) then
+  begin
+    ShowMessage('Fornecedor cadastrado com sucesso !');
+    edtnomefor.Text := '';
+    edtendfor.Text := '';
+    edttelefonefor.Text := '';
+    edtcelular.Text := '';
+    edtcomentariosfor.Text := '';
+  end
+  else
+  begin
+    ShowMessage('Ocorreu um erro ao inserir o fornecedor !');
+  end;
+
+end;
+
+procedure Tfrmcadfornecedor.edtcelularKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+//DEIXA TUDO MAIÚSCULO NA EDIT
+keychar := UpCase(KeyChar);
+end;
+
+procedure Tfrmcadfornecedor.edtcomentariosforKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+//DEIXA TUDO MAIÚSCULO NA EDIT
+keychar := UpCase(KeyChar);
+end;
+
+procedure Tfrmcadfornecedor.edtendforKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+//DEIXA TUDO MAIÚSCULO NA EDIT
+keychar := UpCase(KeyChar);
+end;
+
+procedure Tfrmcadfornecedor.edtnomeforKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+//DEIXA TUDO MAIÚSCULO NA EDIT
+keychar := UpCase(KeyChar);
+end;
+
+procedure Tfrmcadfornecedor.edttelefoneforKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+//DEIXA TUDO MAIÚSCULO NA EDIT
+keychar := UpCase(KeyChar);
+end;
+
+end.

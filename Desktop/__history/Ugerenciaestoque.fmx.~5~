@@ -1,0 +1,96 @@
+object frmgerenciaestoque: Tfrmgerenciaestoque
+  Left = 0
+  Top = 0
+  Caption = 'Estoque'
+  ClientHeight = 480
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object Layout1: TLayout
+    Align = Client
+    Size.Width = 640.000000000000000000
+    Size.Height = 480.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object Rectangle1: TRectangle
+      Align = Client
+      Fill.Color = claWhite
+      Size.Width = 640.000000000000000000
+      Size.Height = 480.000000000000000000
+      Size.PlatformDefault = False
+      object Layout2: TLayout
+        Align = Top
+        Size.Width = 640.000000000000000000
+        Size.Height = 41.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        object edtbuscar: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Left
+          TabOrder = 0
+          Size.Width = 497.000000000000000000
+          Size.Height = 41.000000000000000000
+          Size.PlatformDefault = False
+          TextPrompt = 'Entre com nome do produto'
+        end
+        object btnbuscar: TRoundRect
+          Align = Right
+          Fill.Color = claCrimson
+          Margins.Left = 10.000000000000000000
+          Margins.Top = 5.000000000000000000
+          Margins.Right = 10.000000000000000000
+          Margins.Bottom = 5.000000000000000000
+          Position.X = 512.000000000000000000
+          Position.Y = 5.000000000000000000
+          Size.Width = 118.000000000000000000
+          Size.Height = 31.000000000000000000
+          Size.PlatformDefault = False
+          Stroke.Thickness = 0.000000000000000000
+          OnClick = btnbuscarClick
+          object Label2: TLabel
+            Align = Center
+            StyledSettings = [Family, Size, Style]
+            TextSettings.FontColor = claWhite
+            TextSettings.HorzAlign = Center
+            Text = 'Buscar'
+            TabOrder = 0
+          end
+        end
+      end
+      object lsprodutosesoquebaixo: TListView
+        ItemAppearanceClassName = 'TListItemAppearance'
+        ItemEditAppearanceClassName = 'TListItemShowCheckAppearance'
+        HeaderAppearanceClassName = 'TListHeaderObjects'
+        FooterAppearanceClassName = 'TListHeaderObjects'
+        Align = Client
+        Size.Width = 640.000000000000000000
+        Size.Height = 389.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+      end
+      object Layout3: TLayout
+        Align = Bottom
+        Position.Y = 430.000000000000000000
+        Size.Width = 640.000000000000000000
+        Size.Height = 50.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        object Label1: TLabel
+          Align = Center
+          StyledSettings = [Family, FontColor]
+          Size.Width = 565.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Size = 16.000000000000000000
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+          Text = 
+            'Clique sobre o produto no qual deseja adicionar mais itens ao es' +
+            'toque !'
+          TabOrder = 0
+        end
+      end
+    end
+  end
+end

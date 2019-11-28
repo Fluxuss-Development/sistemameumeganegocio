@@ -1,0 +1,18 @@
+object frmauditoriaprodutos: Tfrmauditoriaprodutos
+  Left = 0
+  Top = 0
+  Caption = 'Produtos gerenciamento'
+  ClientHeight = 480
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object Rectangle1: TRectangle
+    Align = Client
+    Fill.Color = xFF393939
+    Size.Width = 640.000000000000000000
+    Size.Height = 480.000000000000000000
+    Size.PlatformDefault = False
+  end
+end

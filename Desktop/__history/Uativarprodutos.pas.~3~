@@ -1,0 +1,33 @@
+unit Uativarprodutos;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
+  FMX.ListView, FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts,
+  FMX.Objects;
+
+type
+  Tfrmativarprodutos = class(TForm)
+    Rectangle1: TRectangle;
+    Layout1: TLayout;
+    Label1: TLabel;
+    lsativarproduto: TListView;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmativarprodutos: Tfrmativarprodutos;
+
+implementation
+
+{$R *.fmx}
+
+uses Umodulo;
+
+end.

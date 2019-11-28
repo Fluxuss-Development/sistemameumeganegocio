@@ -1,0 +1,46 @@
+unit Ugerenciaestoque;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.ListView, FMX.Objects,
+  FMX.Layouts, FMX.Edit;
+
+type
+  Tfrmgerenciaestoque = class(TForm)
+    Layout1: TLayout;
+    Rectangle1: TRectangle;
+    Layout2: TLayout;
+    ListView1: TListView;
+    Layout3: TLayout;
+    Label1: TLabel;
+    Edit1: TEdit;
+    btnbuscar: TRoundRect;
+    Label2: TLabel;
+    procedure btnbuscarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmgerenciaestoque: Tfrmgerenciaestoque;
+
+implementation
+
+{$R *.fmx}
+
+uses Umodulo;
+
+procedure Tfrmgerenciaestoque.btnbuscarClick(Sender: TObject);
+begin
+dm.consultaproduto.Close;
+dm.consultaproduto.SQL.Text := 'select * from produtos where prodquantidade < 5';
+dm.consultaproduto.Open();
+end;
+
+end.

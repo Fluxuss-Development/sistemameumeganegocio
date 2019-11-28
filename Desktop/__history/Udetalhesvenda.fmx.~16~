@@ -1,0 +1,235 @@
+object frmdetalhesdavenda: Tfrmdetalhesdavenda
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = Single
+  Caption = 'Detalhes de venda'
+  ClientHeight = 480
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnClose = FormClose
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object Layout1: TLayout
+    Align = Client
+    Size.Width = 640.000000000000000000
+    Size.Height = 480.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object Rectangle1: TRectangle
+      Align = Client
+      Fill.Color = xFF464646
+      Size.Width = 640.000000000000000000
+      Size.Height = 480.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Layout2: TLayout
+      Align = Center
+      Size.Width = 338.000000000000000000
+      Size.Height = 265.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      object lbldatavenda: TLabel
+        Align = Top
+        StyledSettings = [Style]
+        Position.Y = 17.000000000000000000
+        Size.Width = 338.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Arial'
+        TextSettings.Font.Size = 15.000000000000000000
+        TextSettings.FontColor = claWhite
+        Text = 'Data da venda:'
+        TabOrder = 0
+      end
+      object lbltotalvenda: TLabel
+        Align = Top
+        StyledSettings = [Style]
+        Position.Y = 34.000000000000000000
+        Size.Width = 338.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Arial'
+        TextSettings.Font.Size = 15.000000000000000000
+        TextSettings.FontColor = claWhite
+        Text = 'Total da venda:'
+        TabOrder = 1
+      end
+      object lbldesconto: TLabel
+        Align = Top
+        StyledSettings = [Style]
+        Position.Y = 51.000000000000000000
+        Size.Width = 338.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Arial'
+        TextSettings.Font.Size = 15.000000000000000000
+        TextSettings.FontColor = claWhite
+        Text = 'Desconto:'
+        TabOrder = 2
+      end
+      object lblcliente: TLabel
+        Align = Top
+        StyledSettings = [Style]
+        Position.Y = 68.000000000000000000
+        Size.Width = 338.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Arial'
+        TextSettings.Font.Size = 15.000000000000000000
+        TextSettings.FontColor = claWhite
+        Text = 'Cliente:'
+        TabOrder = 3
+      end
+      object lblvendedor: TLabel
+        Align = Top
+        StyledSettings = [Style]
+        Position.Y = 85.000000000000000000
+        Size.Width = 338.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Arial'
+        TextSettings.Font.Size = 15.000000000000000000
+        TextSettings.FontColor = claWhite
+        Text = 'Vendedor:'
+        TabOrder = 4
+      end
+      object lblcodigocaixa: TLabel
+        Align = Top
+        StyledSettings = [Style]
+        Position.Y = 102.000000000000000000
+        Size.Width = 338.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Arial'
+        TextSettings.Font.Size = 15.000000000000000000
+        TextSettings.FontColor = claWhite
+        Text = 'C'#243'digo do caixa:'
+        TabOrder = 5
+      end
+      object lblmetodopag: TLabel
+        Align = Top
+        StyledSettings = [Style]
+        Position.Y = 119.000000000000000000
+        Size.Width = 338.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Arial'
+        TextSettings.Font.Size = 15.000000000000000000
+        TextSettings.FontColor = claWhite
+        Text = 'M'#233'todos de pagamentos: '
+        TabOrder = 6
+      end
+      object btnconferido: TRoundRect
+        Align = Top
+        Fill.Color = claCrimson
+        Margins.Top = 20.000000000000000000
+        Position.Y = 318.000000000000000000
+        Size.Width = 338.000000000000000000
+        Size.Height = 41.000000000000000000
+        Size.PlatformDefault = False
+        OnClick = btnconferidoClick
+        object Label1: TLabel
+          Align = Center
+          StyledSettings = [Family, Size, Style]
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Conferido !'
+          TabOrder = 0
+        end
+      end
+      object lsmetodopagamentos: TListView
+        ItemAppearanceClassName = 'TListItemRightDetailAppearance'
+        ItemEditAppearanceClassName = 'TListItemRightDetailShowCheckAppearance'
+        HeaderAppearanceClassName = 'TListHeaderObjects'
+        FooterAppearanceClassName = 'TListHeaderObjects'
+        Align = Top
+        Margins.Top = 20.000000000000000000
+        Position.Y = 156.000000000000000000
+        Size.Width = 338.000000000000000000
+        Size.Height = 142.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 7
+      end
+      object lblcodigodavenda: TLabel
+        Align = Top
+        StyledSettings = [Family, Style]
+        Size.Width = 338.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Size = 15.000000000000000000
+        TextSettings.FontColor = claWhite
+        Text = 'C'#243'digo da venda:'
+        TabOrder = 8
+      end
+    end
+    object Image1: TImage
+      MultiResBitmap.Height = 48
+      MultiResBitmap.Width = 48
+      MultiResBitmap = <
+        item
+          Width = 48
+          Height = 48
+          PNG = {
+            89504E470D0A1A0A0000000D49484452000000300000003008060000005702F9
+            87000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+            0274494441546843ED974D48944118809F5593962CDD74D54C925C3A48D00F75
+            A843D0AD43D7600F427529886CA94321411404D11F1595D6A182284A850E1EA3
+            2888A04B144544482B6429D8AA654A56B06DEF30236EE2C6EE7E9FCD0AF3C030
+            DFBC2FBBCC33DFFC7D381CDE08983A23A96863CA3CFA8AFC696B5167EF29D3CC
+            9B2253FF57528B97A8913B998A2E3F664279634520B9FF0AA970BD3C058E7A95
+            B022404598E4BECBBE48D811504C4A542D9546FE12F604143E48D8155084AA3D
+            49D817507890280C01C5A444659D34B297281C01859288E5265158028A50CD5F
+            123A98196B57896C0974F6FEB38F85F70672C409D8C609D8C609D866CE0BE477
+            902D6B8243B74C43F8360C3DCFA1FB227C1984C81A38704DE77EFD80A14FF0F8
+            2E3CEBD6B1D59B61C771FD9CCED99D3010370DCDEC1E64DFC7E0E543F8FA19D6
+            6F81967628293549617C14DEBF804AB965361F814DDB743C500CA541919B80F8
+            ABA9F2536473C49BC0C8005C6F8533DBA1EF2DD434C08A752629243E407B4C3E
+            DF9BE54338095BF748E7D30634FE1ADA5AA6CA70BF49648F3F6B2025B36C503A
+            AB280FEB3A9D449F2E65E57259AB35417FF026306FBE5E0F4D1BA56CD0B1FE1E
+            5D4F67625CD7E982915532EDDA7489CA9BCC036F026ACAA8C5BCF7928C6E089E
+            74C1C77726398D99EEB4C145D0B05297BA8809E6863781D184EC3CD2F97BE7E0
+            C26EE83A6D1233B060A1AED56F2679F3140ECA8EA4CAF95D26981BDE04C646E0
+            C14DD922EFE8DD261315D55055AF772DB5CDFA883F8B3813B58D10BB0A873BA0
+            B804EEDF90A9F4DB24FD6176058265B250D7CA3921A3DE71021EDD3609FF709F
+            94B67102B67102B67102B67102B671020EC79C06FE0022CDBC9BD864CDE80000
+            000049454E44AE426082}
+          FileName = 
+            'C:\Users\Joao\Desktop\TCC\MEU MEGA NEG'#211'CIO V2\imagens\icones\pdf' +
+            '_2_48px.png'
+        end>
+      Position.X = 296.000000000000000000
+      Position.Y = 64.000000000000000000
+      OnClick = Image1Click
+    end
+  end
+  object BindSourceDB1: TBindSourceDB
+    DataSet = dm.consultapagamentos
+    ScopeMappings = <>
+    Left = 536
+    Top = 256
+  end
+  object BindingsList1: TBindingsList
+    Methods = <>
+    OutputConverters = <>
+    Left = 20
+    Top = 5
+    object LinkFillControlToField1: TLinkFillControlToField
+      Category = 'Quick Bindings'
+      Control = lsmetodopagamentos
+      Track = True
+      FillDataSource = BindSourceDB1
+      FillDisplayFieldName = 'nomepagamento'
+      AutoFill = True
+      FillExpressions = <
+        item
+          SourceMemberName = 'pagvlr'
+          ControlMemberName = 'Detail'
+        end>
+      FillHeaderExpressions = <>
+      FillBreakGroups = <>
+    end
+  end
+end

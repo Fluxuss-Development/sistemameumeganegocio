@@ -1,0 +1,80 @@
+object frmacoesrelatorio: Tfrmacoesrelatorio
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 480
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object Layout1: TLayout
+    Align = Client
+    Size.Width = 640.000000000000000000
+    Size.Height = 480.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object Rectangle1: TRectangle
+      Align = Client
+      Fill.Color = xFF474646
+      Size.Width = 640.000000000000000000
+      Size.Height = 480.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Layout2: TLayout
+      Align = Center
+      Size.Width = 358.000000000000000000
+      Size.Height = 197.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      object btnabrirrelatorio: TRoundRect
+        Align = Top
+        Fill.Color = claCrimson
+        Margins.Left = 10.000000000000000000
+        Margins.Top = 10.000000000000000000
+        Margins.Right = 10.000000000000000000
+        Margins.Bottom = 20.000000000000000000
+        Position.X = 10.000000000000000000
+        Position.Y = 10.000000000000000000
+        Size.Width = 338.000000000000000000
+        Size.Height = 50.000000000000000000
+        Size.PlatformDefault = False
+        object Label1: TLabel
+          Align = Center
+          StyledSettings = [Family, Size, Style]
+          Size.Width = 290.000000000000000000
+          Size.Height = 41.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Abrir relat'#243'rio'
+          TabOrder = 0
+        end
+      end
+      object btnexcluirrelatorio: TRoundRect
+        Align = Top
+        Fill.Color = claCrimson
+        Margins.Left = 10.000000000000000000
+        Margins.Top = 10.000000000000000000
+        Margins.Right = 10.000000000000000000
+        Margins.Bottom = 10.000000000000000000
+        Position.X = 10.000000000000000000
+        Position.Y = 90.000000000000000000
+        Size.Width = 338.000000000000000000
+        Size.Height = 50.000000000000000000
+        Size.PlatformDefault = False
+        object Label2: TLabel
+          Align = Center
+          StyledSettings = [Family, Size, Style]
+          Size.Width = 290.000000000000000000
+          Size.Height = 41.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Excluir relat'#243'rio'
+          TabOrder = 0
+        end
+      end
+    end
+  end
+end

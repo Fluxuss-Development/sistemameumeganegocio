@@ -1,0 +1,169 @@
+object frmfinalizandovenda: Tfrmfinalizandovenda
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 480
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object Layout1: TLayout
+    Align = Client
+    Size.Width = 640.000000000000000000
+    Size.Height = 480.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object Rectangle1: TRectangle
+      Align = Client
+      Fill.Color = xFF454545
+      Opacity = 0.500000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 480.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Layout2: TLayout
+      Align = Center
+      Size.Width = 478.000000000000000000
+      Size.Height = 232.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      object Rectangle2: TRectangle
+        Align = Client
+        Fill.Color = xFF565656
+        Size.Width = 478.000000000000000000
+        Size.Height = 232.000000000000000000
+        Size.PlatformDefault = False
+        object Layout3: TLayout
+          Align = Top
+          Size.Width = 478.000000000000000000
+          Size.Height = 65.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          object Rectangle3: TRectangle
+            Align = Client
+            Fill.Color = claWhite
+            Size.Width = 478.000000000000000000
+            Size.Height = 65.000000000000000000
+            Size.PlatformDefault = False
+            object Image1: TImage
+              MultiResBitmap.Height = 32
+              MultiResBitmap.Width = 32
+              MultiResBitmap.LoadSize = 1
+              MultiResBitmap = <
+                item
+                  Width = 32
+                  Height = 32
+                  PNG = {
+                    89504E470D0A1A0A0000000D4948445200000020000000200806000000737A7A
+                    F4000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+                    0236494441545847ED94CF6B134114C7B3494CC1042239480B8207857A087817
+                    C4A228F9072484443DD7BFA0828278B0160FFE00C19B48C90F9AA317115AAB82
+                    470F39A93D892016513C04919064FDBCC94BC86E343B1B2A7AD80FCC7EDFCECE
+                    CE7CF7BDD989454444FC6B1CD511A552E9793C1E5F92B8DBED7E4F269337ABD5
+                    EA6DF3F02F10571DC1E2490D632C7E00592B168B47063D7BCF4406C62997CB1B
+                    C879D775976BB5DAC341EFDE1264E032F280D6A00C2532F191AC1C320F67639D
+                    792E6A6C9828C138FD7E7F4B94BD701A7128CFA6DCCF0A997CAAE188A9190087
+                    AFFECC571F243E86FB77836E7B0A85C25C369BFDCA1CFB7BBDDE42A3D1D8D547
+                    86A9190097174D16C886642134B95CEE2473A409DFF81717820C48DA5E8892FE
+                    53A623248EE39CD5F099AA071B03DBAA6220A864BFE39CEA6C06EAF5FA5BE413
+                    5F32CF21B538E8B583BF6801394E6B773A9DD7A6D347A001E5A55C30614EC810
+                    9CA149D6B69BCD66C7F4F8B03560CA808150FB80B24DADBF6055D34AA57294C9
+                    DE13CEB2075CFEA0454AB9A3F71E12AA5369B55ADFF2F9FC4F4C9C200BFBB43B
+                    1016FEC1F8AB1CE34FB46B02DB12C8697887C9EE137ED0B69A4EA7531C4ECEB0
+                    B1D1E630796B38865FF71E63EE12FF116B03A954EA060656080F6BBBD26EB7AF
+                    CBB3213663FC581B800B7221AD4B2C22BB5B36D925D1316CC678086360B85F7A
+                    2CD09500F5BF6F33C64318038FE5425D5FF175E6784E24128F44C7B019E3C1DA
+                    001BEC1AB246FBA26D3593C978EA6B332622E23F2316FB055973CDE25741771E
+                    0000000049454E44AE426082}
+                  FileName = 
+                    'C:\Users\joao\Desktop\TCC\MEU MEGA NEG'#211'CIO V2\imagens\icones\com' +
+                    'prado.ico'
+                end>
+              Align = Center
+              Size.Width = 43.000000000000000000
+              Size.Height = 42.000000000000000000
+              Size.PlatformDefault = False
+            end
+            object lblcodigodavenda: TLabel
+              Align = Left
+              Size.Width = 137.000000000000000000
+              Size.Height = 65.000000000000000000
+              Size.PlatformDefault = False
+              Text = 'C'#243'digo da venda:'
+              TabOrder = 1
+            end
+          end
+        end
+        object Layout4: TLayout
+          Align = Top
+          Position.Y = 65.000000000000000000
+          Size.Width = 478.000000000000000000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          object lbltroco: TLabel
+            Align = Left
+            StyledSettings = [Family, Size, Style]
+            Margins.Left = 10.000000000000000000
+            Position.X = 10.000000000000000000
+            Size.Width = 463.000000000000000000
+            Size.Height = 50.000000000000000000
+            Size.PlatformDefault = False
+            TextSettings.FontColor = claWhite
+            Text = 'Troco:'
+            TabOrder = 0
+          end
+        end
+        object Layout5: TLayout
+          Align = Top
+          Position.Y = 115.000000000000000000
+          Size.Width = 478.000000000000000000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 2
+          object lbltotalvenda: TLabel
+            Align = Left
+            StyledSettings = [Family, Size, Style]
+            Margins.Left = 10.000000000000000000
+            Position.X = 10.000000000000000000
+            Size.Width = 463.000000000000000000
+            Size.Height = 50.000000000000000000
+            Size.PlatformDefault = False
+            TextSettings.FontColor = claWhite
+            Text = 'Valor total:'
+            TabOrder = 0
+          end
+        end
+        object BtnOK: TRoundRect
+          Align = Top
+          Fill.Color = claCrimson
+          Margins.Left = 20.000000000000000000
+          Margins.Top = 10.000000000000000000
+          Margins.Right = 10.000000000000000000
+          Margins.Bottom = 10.000000000000000000
+          Position.X = 20.000000000000000000
+          Position.Y = 175.000000000000000000
+          Size.Width = 448.000000000000000000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          OnClick = BtnOKClick
+          object Label2: TLabel
+            Align = Center
+            StyledSettings = [Family]
+            Size.Width = 237.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            TextSettings.Font.Size = 16.000000000000000000
+            TextSettings.Font.StyleExt = {00070000000000000004000000}
+            TextSettings.FontColor = claWhite
+            TextSettings.HorzAlign = Center
+            Text = 'Concluir venda !'
+            TabOrder = 0
+          end
+        end
+      end
+    end
+  end
+end

@@ -1,0 +1,93 @@
+unit Uconsultasubcategorias;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
+  Data.Bind.EngExt, Fmx.Bind.DBEngExt, System.Rtti, System.Bindings.Outputs,
+  Fmx.Bind.Editors, Data.Bind.Components, Data.Bind.DBScope, FMX.ListView,
+  FMX.Ani, FMX.StdCtrls, FMX.Objects, FMX.Controls.Presentation, FMX.Edit,
+  FMX.Layouts;
+
+type
+  Tfrmconsultasubcategoria = class(TForm)
+    Layout1: TLayout;
+    Layout2: TLayout;
+    edtbuscar: TEdit;
+    BtnBuscar: TRoundRect;
+    Label1: TLabel;
+    ScaleX: TFloatAnimation;
+    ScaleY: TFloatAnimation;
+    lsconsultasubcategoria: TListView;
+    Layout3: TLayout;
+    Label2: TLabel;
+    BindSourceDB1: TBindSourceDB;
+    BindingsList1: TBindingsList;
+    LinkFillControlToField1: TLinkFillControlToField;
+    procedure BtnBuscarClick(Sender: TObject);
+    procedure lsconsultasubcategoriaItemClickEx(const Sender: TObject;
+      ItemIndex: Integer; const LocalClickPos: TPointF;
+      const ItemObject: TListItemDrawable);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    //instrucao
+    pegar_id_para_cadastrar_produtos : string;
+  end;
+
+var
+  frmconsultasubcategoria: Tfrmconsultasubcategoria;
+
+implementation
+
+{$R *.fmx}
+
+uses Umodulo, Ucadprodutos, Ucadsubcategoria;
+
+procedure Tfrmconsultasubcategoria.BtnBuscarClick(Sender: TObject);
+begin
+  dm.consultasubcategoria.Active := false;
+  dm.consultasubcategoria.SQL.Text := 'select * from subcategoria where subcatnome like ' + QuotedStr(edtbuscar.Text + '%');
+  dm.consultasubcategoria.Active := true;
+end;
+
+procedure Tfrmconsultasubcategoria.FormShow(Sender: TObject);
+begin
+dm.consultasubcategoria.Close;
+end;
+
+procedure Tfrmconsultasubcategoria.lsconsultasubcategoriaItemClickEx(
+  const Sender: TObject; ItemIndex: Integer; const LocalClickPos: TPointF;
+  const ItemObject: TListItemDrawable);
+begin
+if(pegar_id_para_cadastrar_produtos = 'sim') then //para pegar id e mandar para o cadastro
+begin
+dm.consultasubcategoria.RecNo := lsconsultasubcategoria.Selected.Index + 1;
+frmcadprodutos.iddasubcate := dm.consultasubcategoriasubcatcod.AsInteger;
+frmcadprodutos.edtsubcategoria.Text := dm.consultasubcategoriasubcatnome.AsString;
+frmconsultasubcategoria.Hide;
+end
+else
+begin
+  //aqui ficara a logica para editar
+dm.consultasubcategoria.RecNo := lsconsultasubcategoria.Selected.Index + 1;
+frmcadsubcategoria.edtnomesubcat.Text := dm.consultasubcategoriasubcatnome.AsString;
+frmcadsubcategoria.subcatcod := dm.consultasubcategoriasubcatcod.AsInteger; //id da subcategoria para usar no where
+frmcadsubcategoria.edtsubcatdesc.Text := dm.consultasubcategoriasubcatdescricao.AsString;
+frmcadsubcategoria.iddacategoria := dm.consultasubcategoriacatid.AsInteger; //pega o id da categoria pai
+dm.consultacategoria.close; //fecha a tabela de categorias
+dm.consultacategoria.SQL.Text := 'select * from categorias where catecod = ' + dm.consultasubcategoriacatid.AsString;
+dm.consultacategoria.open; //abre a tabela de categorias
+frmcadsubcategoria.edtcatid.Text := dm.consultacategoriacatenome.AsString;
+dm.consultacategoria.Close;//fecha a tabela de categorias denovo !
+frmcadsubcategoria.gamba_do_zanata := 'altera';
+frmcadsubcategoria.Show;
+frmconsultasubcategoria.close;
+end;
+end;
+
+end.

@@ -1,0 +1,253 @@
+unit Ugerenciafuncionarios;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes,
+  System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
+  FMX.Layouts, FMX.ListView.Types, FMX.ListView.Appearances,
+  FMX.ListView.Adapters.Base, FMX.ListBox, FMX.Edit, FMX.ListView,
+  FMX.Controls.Presentation, FMX.StdCtrls, Data.Bind.EngExt, FMX.Bind.DBEngExt,
+  Data.Bind.Components, Data.Bind.DBScope, System.Rtti, System.Bindings.Outputs,
+  FMX.Bind.Editors, FireDAC.Stan.Param;
+                    //evita warning FireDAC.Stan.Param
+type
+  Tfrmgerfuncionarios = class(TForm)
+    Rectangle1: TRectangle;
+    Layout1: TLayout;
+    Layout2: TLayout;
+    Layout3: TLayout;
+    btnbuscar: TRoundRect;
+    Label2: TLabel;
+    lsempresarios: TListView;
+    btncadastrar: TRoundRect;
+    Label3: TLabel;
+    btnalterar: TRoundRect;
+    Label4: TLabel;
+    Label1: TLabel;
+    edtnomeempresario: TEdit;
+    edtsenha: TEdit;
+    Label5: TLabel;
+    Label6: TLabel;
+    cbocargo: TComboBox;
+    BindSourceDB1: TBindSourceDB;
+    BindingsList1: TBindingsList;
+    LinkFillControlToField1: TLinkFillControlToField;
+    procedure FormShow(Sender: TObject);
+    procedure btncadastrarClick(Sender: TObject);
+    procedure btnbuscarClick(Sender: TObject);
+    procedure lsempresariosItemClickEx(const Sender: TObject;
+      ItemIndex: Integer; const LocalClickPos: TPointF;
+      const ItemObject: TListItemDrawable);
+    procedure btnalterarClick(Sender: TObject);
+    procedure edtnomeempresarioKeyDown(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
+    procedure edtsenhaKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
+      Shift: TShiftState);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    codigodoempresario: Integer;
+  end;
+
+var
+  frmgerfuncionarios: Tfrmgerfuncionarios;
+
+implementation
+
+{$R *.fmx}
+
+uses Umodulo, Ulogin;
+
+//DLL DAS MENSAGENS CUSTOMIZADAS
+function mostraMensagem(Msg1, Msg2, btn1: string): integer; stdcall;
+  external 'PexibirMensagem.dll' name 'mostraMensagem';
+//FIM DO DLL
+
+procedure Tfrmgerfuncionarios.btnalterarClick(Sender: TObject);
+begin
+  if (edtnomeempresario.Text.Equals('') or edtsenha.Text.Equals('')) then
+  begin
+   //ShowMessage('Campos vazios !');
+    mostraMensagem('Campos vazios !', 'Campos vazios !', 'OK');
+    abort;
+  end
+  else if(cbocargo.ItemIndex = -1) then
+  begin
+    //ShowMessage('Defina um cargo a seu colaborador !!');
+    mostraMensagem('Defina um cargo a seu colaborador !!', 'Defina um cargo a seu colaborador !!', 'OK');
+  end
+  else if(StrToInt(codigodoempresario) = frmlogin.id_do_usuario_logado) then
+  begin
+      if (edtnomeempresario.Text <> frmlogin.nome_do_usuario_logado_para_proteger_integridade_do_sistema) then
+      begin
+       mostraMensagem('Erro de integridade do sistema, você não pode alterar sua própria sessão defina uma nova e a partir dela efetue a mudança !', 'Erro de integridade do sistema, você não pode alterar sua própria sessão defina uma nova e a partir dela efetue a mudança !', 'OK');
+       edtnomeempresario.Text := '';
+       edtsenha.Text := '';
+       cbocargo.ItemIndex := -1;
+       btnalterar.Visible := false;
+       btncadastrar.Visible := true;
+       abort;
+      end
+      else if(edtnomeempresario.Text = frmlogin.nome_do_usuario_logado_para_proteger_integridade_do_sistema) then
+      begin
+      // ShowMessage('Erro de integridade do sistema, você não pode alterar sua própria sessão defina uma nova e a partir dela efetue a mudança !');
+        mostraMensagem('Erro de integridade do sistema, você não pode alterar sua própria sessão defina uma nova e a partir dela efetue a mudança !', 'Erro de integridade do sistema, você não pode alterar sua própria sessão defina uma nova e a partir dela efetue a mudança !', 'OK');
+        edtnomeempresario.Text := '';
+        edtsenha.Text := '';
+        cbocargo.ItemIndex := -1;
+        btnalterar.Visible := false;
+        btncadastrar.Visible := true;
+        abort;
+        end
+  end
+  else
+  begin
+    dm.qlogin.Close;
+    dm.qlogin.SQL.Text := 'select * from empresario where empnome = ' +
+      QuotedStr(edtnomeempresario.Text) + ' and empcod != ' + QuotedStr(IntToStr(codigodoempresario));
+    dm.qlogin.Open;
+    if (dm.qlogin.RecordCount >= 1) then
+    begin
+     // ShowMessage('Já existe um usuário com esse nome !');
+      mostraMensagem('Já existe um usuário com esse nome !', 'Já existe um usuário com esse nome !', 'OK');
+    end
+    else
+    begin
+      dm.alteraempresario.Params.ParamByName('empnome').Value :=
+        edtnomeempresario.Text;
+      dm.alteraempresario.Params.ParamByName('empsenha').Value := edtsenha.Text;
+      dm.alteraempresario.Params.ParamByName('empcod').Value :=
+        codigodoempresario;
+      if (cbocargo.Selected.Text = 'Gerente') then
+      begin
+        dm.alteraempresario.Params.ParamByName('empfuncionario').Value := '0';
+      end
+      else
+      begin
+        dm.alteraempresario.Params.ParamByName('empfuncionario').Value := '1';
+      end;
+      dm.alteraempresario.Prepare;
+      dm.alteraempresario.ExecSQL;
+      //ShowMessage('Alterado com sucesso !');
+      mostraMensagem('Alterado com sucesso !', 'Alterado com sucesso !', 'OK');
+      edtnomeempresario.Text := '';
+      edtsenha.Text := '';
+      codigodoempresario := 0;
+      btnalterar.Visible := false;
+      btncadastrar.Visible := true;
+    end
+  end
+end;
+
+procedure Tfrmgerfuncionarios.btnbuscarClick(Sender: TObject);
+begin
+  dm.consultaempresario.Close;
+  dm.consultaempresario.Open;
+end;
+
+procedure Tfrmgerfuncionarios.btncadastrarClick(Sender: TObject);
+begin
+  if (edtnomeempresario.Text.Equals('') or edtsenha.Text.Equals('')) then
+  begin
+   // ShowMessage('Preencha todos os campos');
+    mostraMensagem('Preencha todos os campos', 'Preencha todos os campos', 'OK');
+    abort;
+  end
+  else if(cbocargo.ItemIndex = -1) then
+  begin
+    //ShowMessage('Erro você não definiu um cargo a seu colaborador !!');
+    mostraMensagem('Erro você não definiu um cargo a seu colaborador !!', 'Erro você não definiu um cargo a seu colaborador !!', 'OK');
+  end
+  else
+  begin
+    dm.qlogin.Close;
+    dm.qlogin.SQL.Clear;
+    dm.qlogin.SQL.Text := 'select * from empresario where empnome =' +
+      QuotedStr(edtnomeempresario.Text);
+    dm.qlogin.Open;
+    if (dm.qlogin.RecordCount >= 1) then
+    begin
+     // ShowMessage('Já existe um funcionário com esse nome ! tente outro !');
+      mostraMensagem('Já existe um funcionário com esse nome ! tente outro !', 'Já existe um funcionário com esse nome ! tente outro !', 'OK');
+    end
+    else
+    begin
+      dm.insereempresario.Params.ParamByName('empnome').Value :=
+        edtnomeempresario.Text;
+      dm.insereempresario.Params.ParamByName('empsenha').Value := edtsenha.Text;
+      if (cbocargo.Selected.Text = 'Gerente') then
+      begin
+        dm.insereempresario.Params.ParamByName('empfuncionario').Value := '0';
+      end
+      else
+      begin
+        dm.insereempresario.Params.ParamByName('empfuncionario').Value := '1';
+      end;
+      dm.insereempresario.Prepare;
+      dm.insereempresario.ExecSQL;
+      if (dm.insereempresario.RowsAffected = 1) then
+      begin
+        //ShowMessage('Cadastrado com sucesso !');
+        mostraMensagem('Cadastrado com sucesso !', 'Cadastrado com sucesso !', 'OK');
+        dm.consultaempresario.Close;
+        dm.consultaempresario.Open;
+        edtnomeempresario.Text := '';
+        edtsenha.Text := '';
+        cbocargo.Selected.Index := 0;
+      end
+      else
+      begin
+       // ShowMessage('Erro ao cadastrar novo funcionário');
+        mostraMensagem('Erro ao cadastrar novo funcionário', 'Erro ao cadastrar novo funcionário', 'OK');
+      end;
+    end;
+  end;
+end;
+
+procedure Tfrmgerfuncionarios.edtnomeempresarioKeyDown(Sender: TObject;
+  var Key: Word; var KeyChar: Char; Shift: TShiftState);
+begin
+if (KeyChar in ['0'..'9', #8, #27, #32]) then
+begin
+  KeyChar := #0;
+ // ShowMessage('Apenas texto !');
+  mostraMensagem('Apenas texto !', 'Apenas texto !', 'OK');
+end;
+//DEIXA TUDO MAIÚSCULO NA EDIT
+keychar := UpCase(KeyChar);
+end;
+
+procedure Tfrmgerfuncionarios.edtsenhaKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+//DEIXA TUDO MAIÚSCULO NA EDIT
+keychar := UpCase(KeyChar);
+end;
+
+procedure Tfrmgerfuncionarios.FormShow(Sender: TObject);
+begin
+  dm.consultaempresario.Close;
+  dm.consultaempresario.Open;
+end;
+
+procedure Tfrmgerfuncionarios.lsempresariosItemClickEx(const Sender: TObject;
+  ItemIndex: Integer; const LocalClickPos: TPointF;
+  const ItemObject: TListItemDrawable);
+begin
+  dm.consultaempresario.RecNo := lsempresarios.Selected.Index + 1;
+  edtnomeempresario.Text := dm.consultaempresarioempnome.AsString;
+  //consulta o empresario para pegar o id e gravar na variável para alteração depois
+  dm.qlogin.Close;
+  dm.qlogin.SQL.Text := 'select * from empresario where empnome = ' + QuotedStr(dm.consultaempresarioempnome.AsString) + ' and empsenha = ' + QuotedStr(dm.consultaempresarioempsenha.AsString);
+  dm.qlogin.Open;
+  codigodoempresario := dm.qloginempcod.AsInteger;
+  //edtsenha.Text := dm.consultaempresarioempsenha.AsString;   <- não traz mais a senha por causa do md5
+  edtsenha.Text := '';
+  btncadastrar.Visible := false;
+  btnalterar.Visible := true;
+end;
+
+end.

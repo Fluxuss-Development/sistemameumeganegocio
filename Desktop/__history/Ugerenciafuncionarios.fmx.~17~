@@ -1,0 +1,192 @@
+object frmgerfuncionarios: Tfrmgerfuncionarios
+  Left = 0
+  Top = 0
+  Caption = 'Gerenciamento de colaboradores !'
+  ClientHeight = 543
+  ClientWidth = 747
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object Rectangle1: TRectangle
+    Align = Client
+    Fill.Color = xFF484545
+    Size.Width = 747.000000000000000000
+    Size.Height = 543.000000000000000000
+    Size.PlatformDefault = False
+    object Layout1: TLayout
+      Align = Client
+      Size.Width = 747.000000000000000000
+      Size.Height = 543.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object Layout2: TLayout
+        Align = Right
+        Position.X = 435.000000000000000000
+        Size.Width = 312.000000000000000000
+        Size.Height = 543.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        object Layout3: TLayout
+          Align = Top
+          Size.Width = 312.000000000000000000
+          Size.Height = 65.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          object btnbuscar: TRoundRect
+            Fill.Color = claCrimson
+            Position.X = 56.000000000000000000
+            Position.Y = 8.000000000000000000
+            Size.Width = 217.000000000000000000
+            Size.Height = 33.000000000000000000
+            Size.PlatformDefault = False
+            Stroke.Thickness = 0.000000000000000000
+            OnClick = btnbuscarClick
+            object Label2: TLabel
+              Align = Center
+              StyledSettings = [Family, Size, Style]
+              TextSettings.FontColor = claWhite
+              TextSettings.HorzAlign = Center
+              Text = 'Buscar'
+              TabOrder = 0
+            end
+          end
+        end
+        object lsempresarios: TListView
+          ItemAppearanceClassName = 'TListItemRightDetailAppearance'
+          ItemEditAppearanceClassName = 'TListItemRightDetailShowCheckAppearance'
+          HeaderAppearanceClassName = 'TListHeaderObjects'
+          FooterAppearanceClassName = 'TListHeaderObjects'
+          Align = Client
+          Size.Width = 312.000000000000000000
+          Size.Height = 478.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          OnItemClickEx = lsempresariosItemClickEx
+        end
+      end
+      object btncadastrar: TRoundRect
+        Fill.Color = claCrimson
+        Position.X = 56.000000000000000000
+        Position.Y = 248.000000000000000000
+        Size.Width = 217.000000000000000000
+        Size.Height = 33.000000000000000000
+        Size.PlatformDefault = False
+        Stroke.Thickness = 0.000000000000000000
+        OnClick = btncadastrarClick
+        object Label3: TLabel
+          Align = Center
+          StyledSettings = [Family, Size, Style]
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Cadastrar'
+          TabOrder = 0
+        end
+      end
+      object btnalterar: TRoundRect
+        Fill.Color = claCrimson
+        Position.X = 56.000000000000000000
+        Position.Y = 296.000000000000000000
+        Size.Width = 217.000000000000000000
+        Size.Height = 33.000000000000000000
+        Size.PlatformDefault = False
+        Stroke.Thickness = 0.000000000000000000
+        OnClick = btnalterarClick
+        object Label4: TLabel
+          Align = Center
+          StyledSettings = [Family, Size, Style]
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Alterar'
+          TabOrder = 0
+        end
+      end
+      object Label6: TLabel
+        StyledSettings = [Family, Size, Style]
+        Position.X = 48.000000000000000000
+        Position.Y = 208.000000000000000000
+        TextSettings.FontColor = claWhite
+        Text = 'Cargo:'
+        TabOrder = 1
+      end
+      object cbocargo: TComboBox
+        Items.Strings = (
+          'Gerente'
+          'Funcion'#225'rio')
+        Position.X = 96.000000000000000000
+        Position.Y = 208.000000000000000000
+        Size.Width = 177.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+      end
+    end
+    object Label1: TLabel
+      StyledSettings = [Family, Size, Style]
+      Position.X = 56.000000000000000000
+      Position.Y = 72.000000000000000000
+      Size.Width = 201.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.FontColor = claWhite
+      TextSettings.HorzAlign = Center
+      Text = 'Usu'#225'rio:'
+      TabOrder = 1
+    end
+    object edtnomeempresario: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 2
+      MaxLength = 100
+      Position.X = 48.000000000000000000
+      Position.Y = 104.000000000000000000
+      Size.Width = 225.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+    end
+  end
+  object edtsenha: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    TabOrder = 2
+    Position.X = 48.000000000000000000
+    Position.Y = 168.000000000000000000
+    Size.Width = 225.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+  end
+  object Label5: TLabel
+    StyledSettings = [Family, Size, Style]
+    Position.X = 136.000000000000000000
+    Position.Y = 144.000000000000000000
+    TextSettings.FontColor = claWhite
+    Text = 'Senha:'
+    TabOrder = 3
+  end
+  object BindSourceDB1: TBindSourceDB
+    DataSet = dm.consultaempresario
+    ScopeMappings = <>
+    Left = 360
+    Top = 256
+  end
+  object BindingsList1: TBindingsList
+    Methods = <>
+    OutputConverters = <>
+    Left = 20
+    Top = 5
+    object LinkFillControlToField1: TLinkFillControlToField
+      Category = 'Quick Bindings'
+      Control = lsempresarios
+      Track = True
+      FillDataSource = BindSourceDB1
+      FillDisplayFieldName = 'empnome'
+      AutoFill = True
+      FillExpressions = <
+        item
+          SourceMemberName = 'empcargo'
+          ControlMemberName = 'Detail'
+        end>
+      FillHeaderExpressions = <>
+      FillBreakGroups = <>
+    end
+  end
+end

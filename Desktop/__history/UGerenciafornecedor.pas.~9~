@@ -1,0 +1,53 @@
+unit UGerenciafornecedor;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.Layouts;
+
+type
+  Tfrmgerenciafornecedores = class(TForm)
+    Layout1: TLayout;
+    Rectangle1: TRectangle;
+    Layout2: TLayout;
+    btnconsultafornecedor: TRoundRect;
+    Label1: TLabel;
+    btncadastrarfornecedor: TRoundRect;
+    Label2: TLabel;
+    procedure btncadastrarfornecedorClick(Sender: TObject);
+    procedure btnconsultafornecedorClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmgerenciafornecedores: Tfrmgerenciafornecedores;
+
+implementation
+
+{$R *.fmx}
+
+uses Ucadfornecedores, Uconsultafornecedor;
+
+procedure Tfrmgerenciafornecedores.btncadastrarfornecedorClick(Sender: TObject);
+begin
+frmcadfornecedor.edtnomefor.Text := '';
+frmcadfornecedor.edtendfor.Text := '';
+frmcadfornecedor.edttelefonefor.Text := '';
+frmcadfornecedor.edtcelular.Text := '';
+frmcadfornecedor.edtcomentariosfor.Text := '';
+frmcadfornecedor.btncadastrar.Visible := true;
+frmcadfornecedor.btnalterar.Visible := false;
+frmcadfornecedor.ShowModal;
+end;
+
+procedure Tfrmgerenciafornecedores.btnconsultafornecedorClick(Sender: TObject);
+begin
+frmconsultafornecedor.Show;
+end;
+
+end.

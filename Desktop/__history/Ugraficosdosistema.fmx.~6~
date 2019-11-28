@@ -1,0 +1,117 @@
+object frmgraficosdosistema: Tfrmgraficosdosistema
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = Single
+  Caption = 'Gr'#225'ficos'
+  ClientHeight = 494
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object Layout1: TLayout
+    Align = Client
+    Size.Width = 640.000000000000000000
+    Size.Height = 494.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object Rectangle1: TRectangle
+      Align = Client
+      Fill.Color = xFF3B3A3A
+      Size.Width = 640.000000000000000000
+      Size.Height = 494.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Rectangle2: TRectangle
+      Align = Center
+      Fill.Color = claWhite
+      Size.Width = 600.000000000000000000
+      Size.Height = 452.000000000000000000
+      Size.PlatformDefault = False
+      object Chart1: TChart
+        Position.X = 14.000000000000000000
+        Position.Y = 16.000000000000000000
+        Foot.Font.StyleExt = {00040000000200000004000000}
+        Legend.Title.Font.StyleExt = {00070000000000000004000000}
+        SubFoot.Font.StyleExt = {00040000000200000004000000}
+        Title.Text.Strings = (
+          'Gr'#225'fico de vendas para hoje !')
+        View3D = False
+        View3DOptions.Orthogonal = False
+        Zoom.Brush.Kind = None
+        Zoom.Pen.Fill.Color = claSilver
+        Color = claWhite
+        TabOrder = 0
+        Size.Width = 275.000000000000000000
+        Size.Height = 209.000000000000000000
+        Size.PlatformDefault = False
+        ColorPaletteIndex = 13
+        object Series1: TFastLineSeries
+          Title = 'Series1'
+          LinePen.Color = xFF4466A3
+          LinePen.Fill.Color = xFF4466A3
+          XValues.Name = 'X'
+          XValues.Order = loNone
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+        end
+      end
+      object Chart2: TChart
+        Position.X = 320.000000000000000000
+        Position.Y = 16.000000000000000000
+        Foot.Font.StyleExt = {00040000000200000004000000}
+        Legend.Title.Font.StyleExt = {00070000000000000004000000}
+        SubFoot.Font.StyleExt = {00040000000200000004000000}
+        Title.Text.Strings = (
+          'Gr'#225'fico de lucro para hoje !')
+        View3D = False
+        View3DOptions.Orthogonal = False
+        Zoom.Brush.Kind = None
+        Zoom.Pen.Fill.Color = claSilver
+        Color = claWhite
+        TabOrder = 1
+        Size.Width = 265.000000000000000000
+        Size.Height = 209.000000000000000000
+        Size.PlatformDefault = False
+        ColorPaletteIndex = 13
+        object Series2: TFastLineSeries
+          LinePen.Color = xFF4466A3
+          LinePen.Fill.Color = xFF4466A3
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+        end
+      end
+      object Chart3: TChart
+        Position.X = 16.000000000000000000
+        Position.Y = 232.000000000000000000
+        Foot.Font.StyleExt = {00040000000200000004000000}
+        Legend.Title.Font.StyleExt = {00070000000000000004000000}
+        SubFoot.Font.StyleExt = {00040000000200000004000000}
+        Title.Text.Strings = (
+          'Gr'#225'fico de vendas para este m'#234's !')
+        View3D = False
+        View3DOptions.Orthogonal = False
+        Zoom.Brush.Kind = None
+        Zoom.Pen.Fill.Color = claSilver
+        Color = claWhite
+        TabOrder = 2
+        Size.Width = 275.000000000000000000
+        Size.Height = 209.000000000000000000
+        Size.PlatformDefault = False
+        ColorPaletteIndex = 13
+        object Series3: TFastLineSeries
+          LinePen.Color = xFF4466A3
+          LinePen.Fill.Color = xFF4466A3
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+        end
+      end
+    end
+  end
+end

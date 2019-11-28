@@ -1,0 +1,142 @@
+object frmdetalhesdavenda: Tfrmdetalhesdavenda
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = Single
+  Caption = 'Detalhes de venda'
+  ClientHeight = 480
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object Layout1: TLayout
+    Align = Client
+    Size.Width = 640.000000000000000000
+    Size.Height = 480.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object Rectangle1: TRectangle
+      Align = Client
+      Fill.Color = xFF464646
+      Size.Width = 640.000000000000000000
+      Size.Height = 480.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Layout2: TLayout
+      Align = Center
+      Size.Width = 338.000000000000000000
+      Size.Height = 242.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      object lbldatavenda: TLabel
+        Align = Top
+        StyledSettings = [Style]
+        Size.Width = 338.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Arial'
+        TextSettings.Font.Size = 15.000000000000000000
+        TextSettings.FontColor = claWhite
+        Text = 'Data da venda:'
+        TabOrder = 0
+      end
+      object lbltotalvenda: TLabel
+        Align = Top
+        StyledSettings = [Style]
+        Position.Y = 17.000000000000000000
+        Size.Width = 338.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Arial'
+        TextSettings.Font.Size = 15.000000000000000000
+        TextSettings.FontColor = claWhite
+        Text = 'Total da venda:'
+        TabOrder = 1
+      end
+      object lbldesconto: TLabel
+        Align = Top
+        StyledSettings = [Style]
+        Position.Y = 34.000000000000000000
+        Size.Width = 338.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Arial'
+        TextSettings.Font.Size = 15.000000000000000000
+        TextSettings.FontColor = claWhite
+        Text = 'Desconto:'
+        TabOrder = 2
+      end
+      object lblcliente: TLabel
+        Align = Top
+        StyledSettings = [Style]
+        Position.Y = 51.000000000000000000
+        Size.Width = 338.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Arial'
+        TextSettings.Font.Size = 15.000000000000000000
+        TextSettings.FontColor = claWhite
+        Text = 'Cliente:'
+        TabOrder = 3
+      end
+      object lblvendedor: TLabel
+        Align = Top
+        StyledSettings = [Style]
+        Position.Y = 68.000000000000000000
+        Size.Width = 338.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Arial'
+        TextSettings.Font.Size = 15.000000000000000000
+        TextSettings.FontColor = claWhite
+        Text = 'Vendedor:'
+        TabOrder = 4
+      end
+      object lblcodigocaixa: TLabel
+        Align = Top
+        StyledSettings = [Style]
+        Position.Y = 85.000000000000000000
+        Size.Width = 338.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Arial'
+        TextSettings.Font.Size = 15.000000000000000000
+        TextSettings.FontColor = claWhite
+        Text = 'C'#243'digo do caixa:'
+        TabOrder = 5
+      end
+      object lblmetodopag: TLabel
+        Align = Top
+        StyledSettings = [Style]
+        Position.Y = 102.000000000000000000
+        Size.Width = 338.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Arial'
+        TextSettings.Font.Size = 15.000000000000000000
+        TextSettings.FontColor = claWhite
+        Text = 'M'#233'todos de pagamentos: '
+        TabOrder = 6
+      end
+      object btnconferido: TRoundRect
+        Align = Top
+        Fill.Color = claCrimson
+        Margins.Top = 20.000000000000000000
+        Position.Y = 139.000000000000000000
+        Size.Width = 338.000000000000000000
+        Size.Height = 41.000000000000000000
+        Size.PlatformDefault = False
+        OnClick = btnconferidoClick
+        object Label1: TLabel
+          Align = Center
+          StyledSettings = [Family, Size, Style]
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Conferido !'
+          TabOrder = 0
+        end
+      end
+    end
+  end
+end

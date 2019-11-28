@@ -1,0 +1,58 @@
+unit Urelatoriossalvos;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.ListView, FMX.Objects,
+  FMX.Layouts, Data.Bind.EngExt, Fmx.Bind.DBEngExt, System.Rtti,
+  System.Bindings.Outputs, Fmx.Bind.Editors, Data.Bind.Components,
+  Data.Bind.DBScope;
+
+type
+  Tfrmrelatoriossalvos = class(TForm)
+    Layout1: TLayout;
+    Rectangle1: TRectangle;
+    lsrelatoriossalvos: TListView;
+    Layout2: TLayout;
+    Label1: TLabel;
+    Layout3: TLayout;
+    Label2: TLabel;
+    BindSourceDB1: TBindSourceDB;
+    BindingsList1: TBindingsList;
+    LinkFillControlToField1: TLinkFillControlToField;
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmrelatoriossalvos: Tfrmrelatoriossalvos;
+
+implementation
+
+{$R *.fmx}
+
+uses Umodulo;
+
+procedure Tfrmrelatoriossalvos.FormShow(Sender: TObject);
+var
+  localdobanco: string;
+begin
+try
+      dm.dbsqlite_meumeganegocio.Connected := false;
+      localdobanco := ExtractFilePath(paramstr(0)) + 'meumegadblite.db';
+      dm.dbsqlite_meumeganegocio.Params.Database := localdobanco;
+      dm.dbsqlite_meumeganegocio.Connected := true;
+      dm.consultarelatorio.Close;
+      dm.consultarelatorio.Open;
+except
+      ShowMessage('Não foi possível trazer seus dados do banco local !');
+end;
+end;
+
+end.

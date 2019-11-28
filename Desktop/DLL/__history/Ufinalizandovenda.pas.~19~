@@ -1,0 +1,82 @@
+unit Ufinalizandovenda;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts;
+
+type
+  Tfrmfinalizandovenda = class(TForm)
+    Layout1: TLayout;
+    Rectangle1: TRectangle;
+    Layout2: TLayout;
+    Rectangle2: TRectangle;
+    Layout3: TLayout;
+    Image1: TImage;
+    Rectangle3: TRectangle;
+    lblcodigodavenda: TLabel;
+    Layout4: TLayout;
+    lbltroco: TLabel;
+    Layout5: TLayout;
+    lbltotalvenda: TLabel;
+    BtnOK: TRoundRect;
+    Label2: TLabel;
+    Image2: TImage;
+    procedure BtnOKClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure Image2Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    Click : integer;
+  end;
+
+var
+  frmfinalizandovenda: Tfrmfinalizandovenda;
+
+implementation
+
+{$R *.fmx}
+uses SynPdf;
+
+procedure Tfrmfinalizandovenda.BtnOKClick(Sender: TObject);
+begin
+Click := (Sender as TRoundRect).Tag;
+Self.Close;
+end;
+
+procedure Tfrmfinalizandovenda.FormShow(Sender: TObject);
+begin
+Click := 0;
+self.WindowState := TWindowState.wsMaximized;
+end;
+
+
+
+procedure Tfrmfinalizandovenda.Image2Click(Sender: TObject);
+var
+PDF : TPdfDocumentGDI;
+Page : TPdfPage;
+begin
+   PDF := TPdfDocumentGDI.Create();
+   Try
+     PDF.Info.Author := 'Meu mega negócio';
+     PDF.Info.CreationDate := Now;
+     PDF.info.Creator := 'Meu mega Negócio';
+     PDF.Info.Title := 'Cupom Fiscal';
+     //----------------------
+
+     Page := PDF.AddPage;
+     Page.PageLandscape := false;
+     pdf.DefaultPaperSize := psA4;
+     PDF.VCLCanvas.Draw(100, 200, Image2);
+     pdf.VCLCanvas.TextOut(100, 100,'Venda meu mega negócio');
+     pdf.VCLCanvas.TextOut(300, 100,lblcodigodavenda.Text);
+     pdf.SaveToFile('./cupons/cumpomteste.pdf');
+   Finally PDF.Free; ShowMessage('Cupom gerado com sucesso !'); end;
+end;
+
+end.

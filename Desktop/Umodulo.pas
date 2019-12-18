@@ -183,6 +183,7 @@ type
     consulta_funcio_auditoriaempativo: TBooleanField;
     consulta_funcio_auditoriaempfuncionario: TBooleanField;
     insereempresario_primeiroacesso: TFDQuery;
+    FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink;
   private
     { Private declarations }
   public
